@@ -1,12 +1,16 @@
 package com.example.dr_appl.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "patients")
@@ -16,15 +20,17 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long patientId;
     private String patientName;
+    @DateTimeFormat()
     private LocalDateTime appointmentTime;
     private LocalDate dob;
     private String medicalHistory;
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private String insuranceDetails;
 
     public Patient() {}
 
-    public Patient(String patientName, LocalDateTime appointmentTime,LocalDate dob, String medicalHistory,String gender, String insuranceDetails) {
+    public Patient(String patientName, LocalDateTime appointmentTime,LocalDate dob, String medicalHistory,Gender gender, String insuranceDetails) {
         this.patientName = patientName;
         this.appointmentTime = appointmentTime;
         this.dob = dob;
@@ -52,7 +58,7 @@ public class Patient {
     return medicalHistory;
   }
 
-  public String getGender() {
+  public Gender getGender() {
     return gender;
   }
 
