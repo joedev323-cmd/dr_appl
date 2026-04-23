@@ -1,4 +1,4 @@
-package com.example.dr_appl.model;
+package com.example.dr_appl.model.enums;
 
 import java.time.LocalDate;
 
@@ -17,11 +17,11 @@ public class Appointment {
     
     private LocalDate Date;
     @Enumerated(EnumType.STRING)
-    private appntStatus appntStatus;
+    private AppointmentStatus appntStatus;
 
    public Appointment(){}
 
-   public Appointment(LocalDate Date,appntStatus appntStatus){
+   public Appointment(LocalDate Date,AppointmentStatus appntStatus){
     this.Date = Date;
     this.appntStatus = appntStatus;
    }
@@ -31,7 +31,7 @@ public class Appointment {
      public LocalDate getDate() {
         return Date;
     }
-     public appntStatus getAppntStatus() {
+     public AppointmentStatus getAppntStatus() {
         return appntStatus;
     }
 }

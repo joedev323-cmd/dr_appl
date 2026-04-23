@@ -1,5 +1,7 @@
-package com.example.dr_appl.model;
+package com.example.dr_appl.model.entity;
  
+import com.example.dr_appl.model.enums.DoctorStatus;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Docter")
-public class Docter {
+public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Doct_Id;
@@ -18,11 +20,11 @@ public class Docter {
     private String Specialization;
     private String Schedule;
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private DoctorStatus status;
     
-    public Docter(){}
+    public Doctor(){}
     
-    public Docter(String Doc_name,String Specialization,String Schedule,Status status){
+    public Doctor(String Doc_name,String Specialization,String Schedule,DoctorStatus status){
         this.Doc_name = Doc_name;
         this.Specialization =Specialization;
         this.Schedule = Schedule;
@@ -41,7 +43,7 @@ public class Docter {
     public String schedule(){
         return Schedule;
     }
-    public Status status(){
+    public DoctorStatus status(){
         return status;
     }
     

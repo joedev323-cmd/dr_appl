@@ -1,4 +1,4 @@
-package com.example.dr_appl.model;
+package com.example.dr_appl.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.example.dr_appl.model.enums.Gender;
 
 @Entity
 @Table(name = "patients")
