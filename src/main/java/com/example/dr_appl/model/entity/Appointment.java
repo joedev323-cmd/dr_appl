@@ -11,8 +11,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Index;
 
 @Entity
+
+@Table(indexes = {
+    @Index(name = "idx_room_time", columnList = "room_id, startTime, endTime")
+})
 public class Appointment {
 
     @Id
