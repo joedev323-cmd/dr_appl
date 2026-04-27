@@ -17,7 +17,7 @@ import jakarta.persistence.Index;
 @Entity
 
 @Table(indexes = {
-    @Index(name = "idx_room_time", columnList = "room_id, startTime, endTime")
+    @Index(name = "idx_room_time", columnList = "room_room_id, startTime, endTime")
 })
 public class Appointment {
 

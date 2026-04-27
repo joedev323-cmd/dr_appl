@@ -3,220 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title></title>
 </head>
-<style>
-    :root{
-  --bg:#f7f8fb;
-  --card:#ffffff;
-  --muted:#6b7280;
-  --accent:#0ea5a4;       /* teal */
-  --accent-600:#089a98;
-  --danger:#ef4444;
-  --radius:10px;
-  --shadow: 0 6px 18px rgba(20,20,40,0.08);
-  --max-width:720px;
-  --gap:14px;
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family:var(--font-sans);
-  background:linear-gradient(180deg,#f3f6f9 0%,var(--bg) 100%);
-  color:#111827;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  padding:32px;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-}
-
-/* Form container */
-.booking-form{
-  width:100%;
-  max-width:var(--max-width);
-  background:var(--card);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:24px;
-  display:grid;
-  grid-template-columns:1fr 320px; /* main fields + sidebar (optional) */
-  gap:22px;
-}
-
-/* Make single-column on small screens */
-@media (max-width:820px){
-  .booking-form{ grid-template-columns: 1fr; padding:18px; }
-}
-
-/* Fieldset/card */
-.booking-form fieldset{
-  border:0;
-  padding:0;
-  margin:0;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-/* Label & helper */
-.booking-form label{
-  font-weight:600;
-  font-size:14px;
-  color:#0f1724;
-}
-.booking-form .helper{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:2px;
-}
-
-/* Inputs / selects */
-.booking-form select,
-.booking-form input,
-.booking-form button,
-.booking-form textarea{
-  font:inherit;
-  border-radius:8px;
-  padding:12px 14px;
-  border:1px solid #e6e9ef;
-  background:#fff;
-  color:inherit;
-  outline:0;
-  transition:box-shadow .12s, border-color .12s, transform .04s;
-  min-height:44px;
-  appearance:none;
-}
-
-/* Focus styles */
-.booking-form select:focus,
-.booking-form input:focus,
-.booking-form textarea:focus{
-  box-shadow:0 6px 18px rgba(14,165,164,0.12);
-  border-color:var(--accent-600);
-}
-
-/* Disabled / placeholder option */
-.booking-form select option[value=""]{ color:var(--muted); }
-
-/* Error state helper (use .has-error on field wrapper) */
-.booking-form .error{
-  color:var(--danger);
-  font-size:13px;
-}
-
-/* Primary button */
-.btn-primary{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  background:linear-gradient(180deg,var(--accent),var(--accent-600));
-  color:white;
-  border:none;
-  padding:12px 16px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:600;
-  box-shadow:0 8px 24px rgba(8,154,152,0.14);
-  transition:transform .06s ease, box-shadow .12s ease, opacity .12s;
-  width:100%;
-}
-
-/* Secondary button */
-.btn-ghost{
-  background:transparent;
-  border:1px solid #e6e9ef;
-  color:#111827;
-}
-
-/* Button hover/focus */
-.btn-primary:hover{ transform:translateY(-1px) }
-.btn-primary:active{ transform:translateY(0) scale(.998) }
-.btn-primary:disabled{ opacity:.6; cursor:not-allowed; transform:none }
-
-/* Row / responsive layout helpers */
-.row{ display:flex; gap:var(--gap); align-items:center; }
-.row .col{ flex:1 }
-
-/* Compact select with meta text */
-.select-meta{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.select-meta .meta{
-  display:flex;
-  flex-direction:column;
-  font-size:13px;
-  color:var(--muted);
-}
-.select-meta .meta .title{ font-weight:600; color: #0f1724; }
-
-/* Small badge */
-.badge{
-  background:#eefbf9;
-  color:var(--accent-600);
-  font-weight:600;
-  font-size:12px;
-  padding:6px 8px;
-  border-radius:999px;
-  display:inline-block;
-}
-
-/* Toast (success / error) */
-.toast{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  background:#0f1724;
-  color:white;
-  padding:12px 16px;
-  border-radius:10px;
-  box-shadow:0 8px 30px rgba(16,24,40,0.3);
-  font-weight:600;
-  z-index:1200;
-  display:none;
-}
-.toast.show{ display:block }
-
-/* Confirmation modal (simple, non-blocking) */
-.confirm-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(4,6,12,0.36);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:1300;
-  padding:20px;
-}
-.confirm{
-  background:var(--card);
-  padding:20px;
-  border-radius:12px;
-  max-width:560px;
-  width:100%;
-  box-shadow:var(--shadow);
-}
-.confirm h3{ margin:0 0 8px 0; font-size:18px }
-.confirm p{ margin:0 0 14px 0; color:var(--muted) }
-.confirm .actions{ display:flex; gap:12px; justify-content:flex-end; margin-top:8px }
-
-/* Small utilities */
-.text-muted{ color:var(--muted); font-size:13px }
-.small{ font-size:13px }
-
-</style>
 <body>
  <form th:action="@{/book}" th:object="${appointment}" method="post" class="booking-form">
   <fieldset>
     <label for="doctor">Doctor</label>
-    <select id="doctor" th:field="*{doctor}" required>
+    <select id="doctor" th:field="*{doctor}" >
       <option value="">Choose a doctor</option>
       <option th:each="doc : ${doctors}"
               th:value="${doc.id}"
@@ -227,19 +22,19 @@ body{
 
   <fieldset>
     <label for="room">Room</label>
-    <select id="room" th:field="*{room}" required>
+    <select id="room" th:field="*{room}" >
       <option value="">Choose a room</option>
-      <option th:each="rm : ${rooms}"
-              th:value="${rm.roomId}"
-              th:text="'Room #' + ${rm.roomId}">Room</option>
+      <option th:each="rm : ${room}"
+              th:value="${rm.room_id}"
+              th:text="'Room #' + ${rm.room_id}">Room</option>
     </select>
   </fieldset>
 
   <fieldset>
     <label for="timeSlot">Time slot</label>
-    <select id="timeSlot" name="timeSlot" required>
+    <select id="timeSlot" name="timeSlot" >
       <option value="">Choose a time</option>
-      <option th:each="slot : ${availableSlots}"
+      <option th:each="slot : ${Slots}"
               th:value="${slot}"
               th:text="${slot}">Slot</option>
     </select>
