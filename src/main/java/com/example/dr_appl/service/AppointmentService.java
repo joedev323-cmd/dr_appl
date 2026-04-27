@@ -3,6 +3,8 @@ package com.example.dr_appl.service;
 import com.example.dr_appl.model.entity.*;
 import com.example.dr_appl.model.enums.*;
 import com.example.dr_appl.repository.*;
+
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -23,28 +25,25 @@ public class AppointmentService {
         this.roomRepo = roomRepo;
     }
     
-
-    @Transactional
+   @Transactional
     public void createAppointment(Appointment appointment) {
-        // 1. Check if the Room (Critical Section) is FREE
-        if (appointment.getRoom().getRoomStatus() == RoomStatus.OCCUPIED) {
-            throw new IllegalStateException("Room is already occupied!");
+    try {
+
+        boolean occupied = appointmentRepo.isRoomOccupied(
+            appointment.getRoom(),
+            appointment.getStartTime(),
+            appointment.getEndTime()
+        );
+
+        if (occupied) {
+            throw new IllegalStateException("Room already booked");
         }
 
-        // 2. Check if the Doctor (Processor) is BUSY
-        if (appointment.getDoctor().getStatus() == DoctorStatus.BUSY) {
-            throw new IllegalStateException("Doctor is currently busy!");
-        }
-
-        // 3. Perform the "Lock" (Update statuses)
-        appointment.getRoom().setRoomStatus(RoomStatus.OCCUPIED);
-        appointment.getDoctor().setStatus(DoctorStatus.BUSY);
-
-        // 4. Save everything (The Atomic Commit)
         appointmentRepo.save(appointment);
-        roomRepo.save(appointment.getRoom());
-        doctorRepo.save(appointment.getDoctor());
-        
+
+    } catch (ObjectOptimisticLockingFailureException e) {
+        throw new IllegalStateException("Concurrent booking detected. Try again.");
+        }   
     }
     
    public List<java.time.LocalTime> generateAvailableSlots(java.time.LocalDate date, Room room) {
@@ -64,6 +63,12 @@ public class AppointmentService {
     }
     return allSlots;
 }
+
+
+   public Object countAll() {
+ 
+    throw new UnsupportedOperationException("Unimplemented method 'countAll'");
+   }
 
     
 }

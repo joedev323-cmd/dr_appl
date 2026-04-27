@@ -1,52 +1,47 @@
-package com.example.dr_appl.controller;
+ package com.example.dr_appl.controller;
 
-import com.example.dr_appl.model.entity.Appointment;
-import com.example.dr_appl.model.entity.Room;
-import com.example.dr_appl.model.enums.DoctorStatus;
-import com.example.dr_appl.model.enums.RoomStatus;
-import com.example.dr_appl.repository.*;
-import com.example.dr_appl.service.AppointmentService;
- 
-
-import java.time.LocalTime;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.Model; // FIXED: Correct import for web data
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.dr_appl.repository.DoctorRepository;
+import com.example.dr_appl.repository.RoomRepository;
+import com.example.dr_appl.service.AppointmentService;
+import com.example.dr_appl.model.enums.DoctorStatus; // ADDED: Import for Enums
+import com.example.dr_appl.model.enums.RoomStatus;   // ADDED: Import for Enums
 
 @Controller
 public class HomeController {
 
-    private final DoctorRepository doctorRepo;
-    private final RoomRepository roomRepo;
-    private final AppointmentService appointmentService;
+    @Autowired private AppointmentService appointmentService;
+    @Autowired private DoctorRepository doctorRepository;
+    @Autowired private RoomRepository roomRepository;
 
-
-
-    public HomeController(DoctorRepository doctorRepo, RoomRepository roomRepo, AppointmentService appointmentService) {
-        this.doctorRepo = doctorRepo;
-        this.roomRepo = roomRepo;
-        this.appointmentService = appointmentService;
+    @GetMapping("/dashboard")
+    public String dashboard(Model model) {
+        // Ensure these methods (countByStatus, etc.) exist in your repositories/services
+       // model.addAttribute("totalAppointments", appointmentService.countAll());
+        model.addAttribute("doctors", doctorRepository.findByStatus(DoctorStatus.FREE));
+        model.addAttribute("rooms", roomRepository.findByRoomStatus(RoomStatus.OCCUPIED));
+        model.addAttribute("appointment", appointmentService);
+        
+        return "dashboard";
+    }
+    @PostMapping("/dashboard")
+    public String dash(){
+        return "dashboard";
     }
 
     @GetMapping("/")
-    public String index(Model model) {
-       
-        java.time.LocalDate today = java.time.LocalDate.now();
-        Room firstRoom = roomRepo.findAll().stream().findFirst().orElse(null);
-
-        List<LocalTime> timeSlots = appointmentService.generateAvailableSlots(today,firstRoom);
-        model.addAttribute("slots", timeSlots);
-        model.addAttribute("doctors", doctorRepo.findByStatus(DoctorStatus.FREE));
-        model.addAttribute("rooms", roomRepo.findByRoomStatus(RoomStatus.FREE));
-        model.addAttribute("appointment", new Appointment());
+    public String ind(){
         return "index";
     }
-    @PostMapping("/book")
-    public String book(Model model){
-        return "book";
+
+    @GetMapping("/doctors")
+    public String doc(){
+        return "doctors";
     }
+
 }
