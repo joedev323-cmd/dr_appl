@@ -3,31 +3,31 @@ package com.example.dr_appl.model.entity;
 import com.example.dr_appl.model.enums.RoomStatus;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+ 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
- @Entity
-@Table(name = "rooms")  
-public class Room {  
+@Entity
+@Table(name = "rooms")
+public class Room {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roomId;  
-    
+    private Long roomId;
+
     private String roomName;
 
-    @Enumerated(EnumType.STRING)
-    private RoomStatus roomStatus;
-    
     @Version
-    private Integer version;  
-    
+    private Integer version;
+
     public Room() {}
-    
+
+    public Long getRoomId() {
+        return roomId;
+    }
 
     public String getRoomName() {
         return roomName;
@@ -37,28 +37,9 @@ public class Room {
         this.roomName = roomName;
     }
 
-    
-    public Room(RoomStatus roomStatus) {
-        this.roomStatus = roomStatus;
+    public Integer getVersion() {
+        return version;
     }
 
-    public Long getRoomid() {
-        return roomId;
-    }
-
-
-    public void setRoomid(Long roomid) {
-        roomId = roomid;
-    }
-
-
-    public RoomStatus getRoomStatus() {
-        return roomStatus;
-    }
-
-
-    public void setRoomStatus(RoomStatus roomStatus) {
-        this.roomStatus = roomStatus;
-    }
     
 }
