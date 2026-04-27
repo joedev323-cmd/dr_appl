@@ -1,7 +1,5 @@
 package com.example.dr_appl.model.entity;
 
-import com.example.dr_appl.model.enums.RoomStatus;
-
 import jakarta.persistence.Entity;
  
 import jakarta.persistence.GeneratedValue;

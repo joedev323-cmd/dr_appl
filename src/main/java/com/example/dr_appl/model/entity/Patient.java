@@ -91,7 +91,4 @@ public class Patient {
       this.insuranceProvider = insuranceProvider;
     }
     
-
- 
-
-}
+ }

@@ -1,8 +1,9 @@
 package com.example.dr_appl.service;
 
 import com.example.dr_appl.model.entity.*;
-import com.example.dr_appl.model.enums.*;
 import com.example.dr_appl.repository.*;
+
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -26,18 +27,23 @@ public class AppointmentService {
 
     @Transactional
     public void createAppointment(Appointment appointment) {
+    try {
 
-    boolean occupied = appointmentRepo.isRoomOccupied(
-        appointment.getRoom(),
-        appointment.getStartTime(),
-        appointment.getEndTime()
-    );
+        boolean occupied = appointmentRepo.isRoomOccupied(
+            appointment.getRoom(),
+            appointment.getStartTime(),
+            appointment.getEndTime()
+        );
 
-    if (occupied) {
-        throw new IllegalStateException("Room already booked for this time slot");
-    }
+        if (occupied) {
+            throw new IllegalStateException("Room already booked");
+        }
 
         appointmentRepo.save(appointment);
+
+    } catch (ObjectOptimisticLockingFailureException e) {
+        throw new IllegalStateException("Concurrent booking detected. Try again.");
+        }   
     }
     
    public List<java.time.LocalTime> generateAvailableSlots(java.time.LocalDate date, Room room) {
