@@ -16,3 +16,7 @@ the aim of this project is to reduce the time or cut the time and frustrations t
 patients experience when going to book an appointment
 
 eg long queues, calls not going through  among other frustrations.
+
+
+<img width="1600" height="900" alt="Screenshot (28)" src="https://github.com/user-attachments/assets/ff08a10b-9218-4ddc-be34-4cc4904141d9" />
+heres the sample ui
