@@ -60,7 +60,7 @@ public class AppointmentService {
             allSlots.add(time);
         }
         time = time.plusMinutes(30);
-    }
+    } 
     return allSlots;
 }
 

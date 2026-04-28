@@ -1,6 +1,8 @@
 package com.example.dr_appl.controller;
 
 import com.example.dr_appl.model.User;
+import com.example.dr_appl.model.entity.Doctor;
+import com.example.dr_appl.model.entity.Patient;
 import com.example.dr_appl.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class Authcontroller {
@@ -32,15 +35,43 @@ private PasswordEncoder passwordEncoder; // This pulls the BCrypt bean from your
 
 @PostMapping("/signup")
 public String registerUser(@ModelAttribute("user") User user) {
-    // 1. Hash the password
-    String encodedPassword = passwordEncoder.encode(user.getPassword());
+    // 1. Prepare Identity & Security
+    user.setRole("PATIENT");
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+    // 2. Create the Patient Profile object
+    Patient patientProfile = new Patient();
     
-    // 2. Set the hashed password back into the user object
-    user.setPassword(encodedPassword);
-    
-    // 3. Save to DB
+    // 3. Establish the Two-Way Link
+    // Link User -> Patient
+    user.setPatient(patientProfile); 
+    // Link Patient -> User (This sets the foreign key user_id in the DB)
+    patientProfile.setUser(user);
+
+    // 4. Save Once
+    // This will insert into 'users' AND then 'patients' automatically
     userRepository.save(user);
-    
+
     return "redirect:/login?success";
+}
+@GetMapping("/doctors/register")
+public String showDoctorForm(Model model) {
+    model.addAttribute("user", new User()); // Must match th:object="${user}"
+    return "register-doctor";
+}
+@PostMapping("/doctors/register")
+public String registerDoc(@ModelAttribute("user") User user) {
+    user.setRole("DOCTOR");
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+    Doctor doctor = new Doctor();
+    doctor.setUser(user);
+
+    // Because of CascadeType.ALL, saving the user will 
+    // automatically save the linked doctor object!
+    user.setDoctor(doctor); 
+    userRepository.save(user);
+
+    return "redirect:/doctors?success=true";
 }
 }

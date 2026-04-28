@@ -19,20 +19,20 @@ public class HomeController {
     @Autowired private DoctorRepository doctorRepository;
     @Autowired private RoomRepository roomRepository;
 
-    @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-        // Ensure these methods (countByStatus, etc.) exist in your repositories/services
-       // model.addAttribute("totalAppointments", appointmentService.countAll());
-        model.addAttribute("doctors", doctorRepository.findByStatus(DoctorStatus.FREE));
-        model.addAttribute("rooms", roomRepository.findByRoomStatus(RoomStatus.OCCUPIED));
-        model.addAttribute("appointment", appointmentService);
+    // @GetMapping("/dashboard")
+    // public String dashboard(Model model) {
+    //     // Ensure these methods (countByStatus, etc.) exist in your repositories/services
+    //    // model.addAttribute("totalAppointments", appointmentService.countAll());
+    //     model.addAttribute("doctors", doctorRepository.findByStatus(DoctorStatus.FREE));
+    //     model.addAttribute("rooms", roomRepository.findByRoomStatus(RoomStatus.OCCUPIED));
+    //     model.addAttribute("appointment", appointmentService);
         
-        return "dashboard";
-    }
-    @PostMapping("/dashboard")
-    public String dash(){
-        return "dashboard";
-    }
+    //     return "dashboard";
+    // }
+    // @PostMapping("/dashboard")
+    // public String dash(){
+    //     return "dashboard";
+    // }
 
     @GetMapping("/")
     public String ind(){
@@ -44,4 +44,5 @@ public class HomeController {
         return "doctors";
     }
 
+  
 }

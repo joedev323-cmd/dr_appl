@@ -6,16 +6,17 @@
     <title>HealSync | Book Appointment</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased">
 
     <div class="min-h-screen flex">
         <aside class="w-72 bg-white border-r border-slate-200 hidden md:flex flex-col sticky top-0 h-screen">
             <div class="p-8">
-                <h1 class="text-2xl font-bold text-teal-600 tracking-tight">HealSync</h1>
+                <h1 class="text-2xl font-bold tracking-tight">
+                    HealSync<span th:text="${user.role == 'ADMIN' ? '.Admin' : ''}" 
+                                  th:class="${user.role == 'ADMIN' ? 'text-rose-600' : 'text-teal-600'}"></span>
+                </h1>
             </div>
             
             <nav class="flex-1 px-4 space-y-1">
@@ -25,36 +26,32 @@
                 <a href="#" class="flex items-center px-4 py-3 text-sm font-semibold bg-teal-50 text-teal-700 rounded-2xl transition-all">
                     <span class="mr-3">📅</span> Appointments
                 </a>
-                <a th:href="@{/doctors}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-teal-600 rounded-2xl transition-all">
-                    <span class="mr-3">🩺</span> Doctors
-                </a>
-                <a th:href="@{/rooms}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-teal-600 rounded-2xl transition-all">
-                    <span class="mr-3">🏥</span> Rooms
-                </a>
+                
+                <div th:if="${user.role == 'ADMIN'}" class="pt-4 mt-4 border-t border-slate-100 space-y-1">
+                    <p class="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Management</p>
+                    <a th:href="@{/doctors}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
+                        <span class="mr-3">🩺</span> Doctors
+                    </a>
+                    <a th:href="@{/rooms}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
+                        <span class="mr-3">🏥</span> Rooms
+                    </a>
+                </div>
             </nav>
 
             <div class="p-6 border-t border-slate-100">
-                <div class="bg-slate-900 rounded-2xl p-4 text-white text-sm">
-                    <p class="font-semibold">Pro Support</p>
-                    <p class="text-slate-400 text-xs mt-1">Need help?</p>
-                    <button class="mt-3 w-full bg-teal-600 py-2 rounded-xl text-xs hover:bg-teal-500 transition">Contact Admin</button>
-                </div>
-                
                 <form th:action="@{/logout}" method="post">
                     <button type="submit" class="w-full flex items-center px-4 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 rounded-2xl transition-all group">
-                        <span class="mr-3 group-hover:scale-110 transition-transform">📤</span>
-                        Sign Out
+                        <span class="mr-3 group-hover:scale-110 transition-transform">📤</span> Sign Out
                     </button>
                 </form>
             </div>
-            
         </aside>
 
         <main class="flex-1 overflow-y-auto">
             <header class="flex justify-between items-center px-10 py-8">
                 <div>
                     <h2 class="text-3xl font-bold text-slate-800">New Appointment</h2>
-                    <p class="text-slate-500 text-sm mt-1" th:text="${#dates.format(#dates.createNow(), 'EEEE, MMM dd, yyyy')}">Monday, April 27, 2026</p>
+                    <p class="text-slate-500 text-sm mt-1" th:text="${#dates.format(#dates.createNow(), 'EEEE, MMM dd, yyyy')}">Date</p>
                 </div>
                 
                 <div class="flex items-center space-x-4">
@@ -65,77 +62,62 @@
             </header>
 
             <div class="px-10 pb-12 flex justify-center">
-                
                 <div class="w-full max-w-2xl bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
                     
-                    <div class="bg-teal-600 px-10 py-8 text-white flex justify-between items-center">
+                    <div class="bg-slate-900 px-10 py-8 text-white flex justify-between items-center">
                         <div>
                             <h2 class="text-2xl font-bold">Schedule Session</h2>
-                            <p class="text-teal-100 text-sm mt-1">Fill in the details to book a room and specialist.</p>
+                            <p class="text-slate-400 text-sm mt-1">Select your specialist and preferred time.</p>
                         </div>
-                        <span class="text-4xl">📅</span>
+                        <span class="text-4xl">🏥</span>
                     </div>
 
                     <form th:action="@{/book}" th:object="${appointment}" method="post" class="p-10 space-y-8">
                         
                         <div class="space-y-3">
-                            <label for="doctor" class="block text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Select Specialist</label>
+                            <label class="block text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Medical Professional</label>
                             <div class="relative">
-                                <select id="doctor" th:field="*{doctor}" 
-                                        class="w-full appearance-none bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 pr-12 rounded-2xl focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all cursor-pointer font-medium">
-                                    <option value="">Choose a doctor</option>
-                                    <option th:each="doc : ${doctors}"
-                                            th:value="${doc.id}"
-                                            th:text="${doc.name} + ' — ' + ${doc.specialization}">Doc</option>
+                                <select th:field="*{doctor}" class="w-full appearance-none bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 pr-12 rounded-2xl focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all cursor-pointer font-medium">
+                                    <option value="">Select a Doctor</option>
+                                    <option th:each="doc : ${doctors}" th:value="${doc.id}" th:text="${'Dr. ' + doc.firstName + ' ' + doc.lastName + ' — ' + doc.specialization}"></option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-slate-400">
                                     <svg class="h-5 w-5 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
                                 </div>
                             </div>
-                            <p class="text-xs text-slate-400 ml-1 italic">Only board-certified specialists are listed above.</p>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-3">
-                                <label for="room" class="block text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Consultation Room</label>
-                                <div class="relative">
-                                    <select id="room" th:field="*{room}" 
-                                            class="w-full appearance-none bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all cursor-pointer font-medium">
-                                        <option value="">Select Room</option>
-                                        <option th:each="rm : ${room}"
-                                                th:value="${rm.room_id}"
-                                                th:text="'Room #' + ${rm.room_id}">Room</option>
-                                    </select>
-                                </div>
+                                <label class="block text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Location/Room</label>
+                                <select th:field="*{room}" class="w-full bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium">
+                                    <option value="">Select Room</option>
+                                    <option th:each="rm : ${room}" th:value="${rm.room_id}" th:text="'Consultation Room ' + ${rm.room_id}"></option>
+                                </select>
                             </div>
 
                             <div class="space-y-3">
-                                <label for="timeSlot" class="block text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Available Slot</label>
-                                <div class="relative">
-                                    <select id="timeSlot" name="timeSlot" 
-                                            class="w-full appearance-none bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all cursor-pointer font-medium">
-                                        <option value="">Choose Time</option>
-                                        <option th:each="slot : ${Slots}"
-                                                th:value="${slot}"
-                                                th:text="${slot}">Slot</option>
-                                    </select>
-                                </div>
+                                <label class="block text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Time Slot</label>
+                                <select name="timeSlot" class="w-full bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium">
+                                    <option value="">Choose Time</option>
+                                    <option value="09:00 AM">09:00 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="02:00 PM">02:00 PM</option>
+                                    <option value="04:00 PM">04:00 PM</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="pt-6 flex flex-col sm:flex-row gap-4">
-                            <button type="submit" 
-                                    class="flex-1 bg-slate-900 text-white font-bold py-4 rounded-2xl shadow-lg shadow-slate-200 hover:bg-teal-600 hover:shadow-teal-100 transform hover:-translate-y-1 transition-all duration-300">
-                                Confirm Appointment
+                            <button type="submit" class="flex-1 bg-teal-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-teal-100 hover:bg-teal-700 transform hover:-translate-y-1 transition-all duration-300">
+                                Confirm Booking
                             </button>
-                            <button type="button" onclick="window.history.back()" 
-                                    class="sm:w-32 bg-slate-100 text-slate-500 font-bold py-4 rounded-2xl hover:bg-slate-200 transition-all">
+                            <button type="button" onclick="window.history.back()" class="sm:w-32 bg-slate-100 text-slate-500 font-bold py-4 rounded-2xl hover:bg-slate-200 transition-all">
                                 Cancel
                             </button>
                         </div>
                     </form>
                 </div>
-
             </div>
         </main>
     </div>

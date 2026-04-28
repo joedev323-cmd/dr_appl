@@ -7,10 +7,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
- 
 
+import com.example.dr_appl.model.User;
 import com.example.dr_appl.model.enums.Gender;
 
 @Entity
@@ -20,6 +22,9 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Consistent with other entities
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     private String name;
     private LocalDate dob;
@@ -33,14 +38,18 @@ public class Patient {
     private String insuranceProvider;
 
     
+    
     public Patient() {}
     
-    public Patient(String name, LocalDate dob, String medicalHistory, Gender gender, String insuranceProvider) {
+    public Patient(Long id, String name, LocalDate dob, String medicalHistory, Gender gender, String insuranceProvider,
+        User user) {
+      this.id = id;
       this.name = name;
       this.dob = dob;
       this.medicalHistory = medicalHistory;
       this.gender = gender;
       this.insuranceProvider = insuranceProvider;
+      this.user = user;
     }
 
     public Long getId() {
@@ -90,8 +99,14 @@ public class Patient {
     public void setInsuranceProvider(String insuranceProvider) {
       this.insuranceProvider = insuranceProvider;
     }
+
+    public User getUser() {
+      return user;
+    }
+
+    public void setUser(User user) {
+      this.user = user;
+    }
     
-
- 
-
-}
+    
+  }

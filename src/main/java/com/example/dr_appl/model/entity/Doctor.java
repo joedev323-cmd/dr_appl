@@ -1,5 +1,6 @@
 package com.example.dr_appl.model.entity;
  
+import com.example.dr_appl.model.User;
 import com.example.dr_appl.model.enums.DoctorStatus;
 
 import jakarta.persistence.Entity;
@@ -8,6 +9,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,14 +25,23 @@ public class Doctor {
     @Enumerated(EnumType.STRING)
     private DoctorStatus status;
     
+    @OneToOne
+   @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user; // Links back to the User identity
+    
+    
+    
     
     public Doctor(){}
     
-    public Doctor(String name, String Specialization, String YearsofExperiece, DoctorStatus status) {
+    public Doctor(Long id, String name, String specialization, String yearsofExperience, DoctorStatus status,
+            User user) {
+        this.id = id;
         this.name = name;
-        specialization = Specialization;
-        yearsofExperience = YearsofExperiece;
+        this.specialization = specialization;
+        this.yearsofExperience = yearsofExperience;
         this.status = status;
+        this.user = user;
     }
 
     public Long getId() {
@@ -52,16 +64,16 @@ public class Doctor {
         return specialization;
     }
 
-    public void setSpecialization(String Specialization) {
-        specialization = Specialization;
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
 
-    public String getYearsofExperiece() {
+    public String getYearsofExperience() {
         return yearsofExperience;
     }
 
-    public void setYearsofExperiece(String YearsofExperience) {
-        yearsofExperience = YearsofExperience;
+    public void setYearsofExperience(String yearsofExperience) {
+        this.yearsofExperience = yearsofExperience;
     }
 
     public DoctorStatus getStatus() {
@@ -71,7 +83,16 @@ public class Doctor {
     public void setStatus(DoctorStatus status) {
         this.status = status;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
     
     
+     
     
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class RoomController {
-     @GetMapping("/rooms")
+    @GetMapping("/rooms")
     public String room(){
         return "rooms";
     }

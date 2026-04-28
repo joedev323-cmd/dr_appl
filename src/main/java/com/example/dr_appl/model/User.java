@@ -1,5 +1,8 @@
 package com.example.dr_appl.model;
 
+import com.example.dr_appl.model.entity.Doctor;
+import com.example.dr_appl.model.entity.Patient;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,8 +24,15 @@ public class User {
     @Column(nullable = false)
     private String password;
     
-    private String role = "USER"; // Default role for new signups
+    @Column(nullable = false)
+    private String role; // Default role for new signups
 
+    // mappedBy refers to the "user" field in the Doctor/Patient classes
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Doctor doctor;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Patient patient;
     
     public User() {
     }

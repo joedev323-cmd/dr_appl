@@ -14,16 +14,34 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/","/signup", "/login", "/style.css", "/img/**").permitAll() // Allow these
-                .anyRequest().authenticated() // Lock everything else
-            )
+          .authorizeHttpRequests(auth -> auth
+    // 1. Public Assets/Pages
+    .requestMatchers("/", "/signup", "/login", "/style.css", "/img/**").permitAll()
+
+    // 2. Admin Only (Management tasks)
+    .requestMatchers("/doctors/**", "/rooms/**").hasRole("ADMIN")
+
+    // 3. Doctor Only (Consultation tasks)
+    // .requestMatchers("/doctor/schedule/**").hasRole("DOCTOR")
+
+    // 4. Patient Only (Booking tasks)
+    .requestMatchers("/appointmt/**").hasRole("PATIENT")
+
+    // 5. Lock everything else to logged-in users
+    .anyRequest().authenticated()
+)
             .formLogin(form -> form
-                .loginPage("/login") // Use your custom login.html
+                .loginPage("/login") // Uses the  custom login.html
                 .defaultSuccessUrl("/dashboard", true) // Where to go after login
                 .permitAll()
             )
-            .logout(logout -> logout.permitAll());
+            .logout(logout -> logout
+            .logoutUrl("/logout") // The URL that triggers logout
+            .logoutSuccessUrl("/") // Where to go after logging out
+            .invalidateHttpSession(true) // Delete the session
+            .deleteCookies("JSESSIONID") // Clear the browser cookie
+            .permitAll()
+        );
 
         return http.build();
     }
