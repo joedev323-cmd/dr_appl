@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,17 +13,35 @@
 </head>
 <body class="bg-slate-50 text-slate-900">
 
-    <nav class="flex items-center justify-between px-8 py-6 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-    <div class="text-2xl font-bold text-teal-600">HealSync</div>
-    <div class="hidden md:flex space-x-8 font-medium">
-        <a href="#" class="hover:text-teal-600 transition">Find Doctors</a>
-        <a href="#" class="hover:text-teal-600 transition">Services</a>
-        <a href="#" class="hover:text-teal-600 transition">Mobile App</a>
-    </div>
-    <a th:href="@{/login}" class="px-6 py-2 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition shadow-lg shadow-teal-200">
-        Book Now
-    </a>
-</nav>
+  <nav class="flex items-center justify-between px-8 py-6 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="text-2xl font-bold text-teal-600">HealSync</div>
+        
+        <div class="hidden md:flex space-x-8 font-medium">
+            <a href="#" class="hover:text-teal-600 transition">Find Doctors</a>
+            <a href="#" class="hover:text-teal-600 transition">Services</a>
+            <a href="#" class="hover:text-teal-600 transition">Mobile App</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div sec:authorize="isAnonymous()" class="flex items-center gap-4">
+                <a th:href="@{/login}" class="text-slate-600 hover:text-teal-600 font-semibold transition">Login</a>
+                <a th:href="@{/signup}" class="px-6 py-2 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition shadow-lg shadow-teal-200">
+                    Get Started
+                </a>
+            </div>
+
+            <div sec:authorize="isAuthenticated()" class="flex items-center gap-4">
+                <a th:href="@{/dashboard}" class="px-6 py-2 bg-slate-900 text-white rounded-full hover:bg-slate-800 transition shadow-lg shadow-slate-200">
+                    Dashboard
+                </a>
+                <form th:action="@{/logout}" method="post" class="inline">
+                    <button type="submit" class="text-xs text-red-400 hover:text-red-600 uppercase font-bold tracking-widest">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
 
 <section class="relative px-8 py-20 lg:py-32 overflow-hidden">
     <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">

@@ -11,5 +11,5 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     List<Doctor> findByStatus(DoctorStatus status);
 
     // Finds doctors by their specific "processing capability"
-    List<Doctor> findBySpecialization(String specialization);
+    List<Doctor> findBySpecialization(String Specialization);
 }

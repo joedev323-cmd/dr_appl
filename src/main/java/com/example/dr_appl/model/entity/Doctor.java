@@ -17,18 +17,18 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String Specialization;
-    private String YearsofExperiece;
+    private String specialization;
+    private String yearsofExperience;
     @Enumerated(EnumType.STRING)
     private DoctorStatus status;
     
     
     public Doctor(){}
     
-    public Doctor(String name, String specialization, String yearsofExperiece, DoctorStatus status) {
+    public Doctor(String name, String Specialization, String YearsofExperiece, DoctorStatus status) {
         this.name = name;
-        Specialization = specialization;
-        YearsofExperiece = yearsofExperiece;
+        specialization = Specialization;
+        yearsofExperience = YearsofExperiece;
         this.status = status;
     }
 
@@ -49,19 +49,19 @@ public class Doctor {
     }
 
     public String getSpecialization() {
-        return Specialization;
+        return specialization;
     }
 
-    public void setSpecialization(String specialization) {
-        Specialization = specialization;
+    public void setSpecialization(String Specialization) {
+        specialization = Specialization;
     }
 
     public String getYearsofExperiece() {
-        return YearsofExperiece;
+        return yearsofExperience;
     }
 
-    public void setYearsofExperiece(String yearsofExperiece) {
-        YearsofExperiece = yearsofExperiece;
+    public void setYearsofExperiece(String YearsofExperience) {
+        yearsofExperience = YearsofExperience;
     }
 
     public DoctorStatus getStatus() {

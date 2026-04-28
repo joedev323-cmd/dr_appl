@@ -14,4 +14,5 @@ public class RoomController {
     public String Logut(){
         return "redirect :/login?logout";
     }
+    
 }

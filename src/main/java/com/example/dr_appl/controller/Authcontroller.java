@@ -3,6 +3,7 @@ package com.example.dr_appl.controller;
 import com.example.dr_appl.model.User;
 import com.example.dr_appl.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +27,20 @@ public class Authcontroller {
         return "signup";
     }
 
-    @PostMapping("/signup")
-    public String registerUser(@ModelAttribute("user") User user) {
-        // For now, we save the plain password. 
-        // (Later you should use BCryptPasswordEncoder)
-        userRepository.save(user);
-        return "redirect:/login?success";
-    }
+@Autowired
+private PasswordEncoder passwordEncoder; // This pulls the BCrypt bean from your SecurityConfig
+
+@PostMapping("/signup")
+public String registerUser(@ModelAttribute("user") User user) {
+    // 1. Hash the password
+    String encodedPassword = passwordEncoder.encode(user.getPassword());
+    
+    // 2. Set the hashed password back into the user object
+    user.setPassword(encodedPassword);
+    
+    // 3. Save to DB
+    userRepository.save(user);
+    
+    return "redirect:/login?success";
+}
 }
