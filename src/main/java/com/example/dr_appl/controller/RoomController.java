@@ -14,5 +14,8 @@ public class RoomController {
     public String Logut(){
         return "redirect :/login?logout";
     }
-   
+   @GetMapping("/doc")
+   public String prof(){
+    return "doc-profile";
+   }
 }
