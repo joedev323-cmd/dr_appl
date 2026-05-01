@@ -22,8 +22,8 @@ public class SecurityConfig {
     .requestMatchers("/doctors/**", "/rooms/**").hasRole("ADMIN")
 
     // 3. Doctor Only (Consultation tasks)
-    // .requestMatchers("/doctor/schedule/**").hasRole("DOCTOR")
-
+     .requestMatchers("/doctor/schedule/**").hasRole("DOCTOR")
+            .requestMatchers("/profile/**").authenticated()
     // 4. Patient Only (Booking tasks)
     .requestMatchers("/appointmt/**").hasRole("PATIENT")
 

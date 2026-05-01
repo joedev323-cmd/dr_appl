@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealSync | Edit Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .medical-grid {
+            background-image: radial-gradient(#ccf2f4 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased medical-grid">
+
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <aside class="w-72 bg-white border-r border-slate-200 hidden md:flex flex-col sticky top-0 h-screen">
+            <div class="p-8">
+                <h1 class="text-2xl font-bold text-indigo-600 tracking-tight">HealSync</h1>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Patient Portal</p>
+            </div>
+            
+            <nav class="flex-1 px-4 space-y-1">
+                <a th:href="@{/dashboard}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                    <span class="mr-3">🏠</span> Home
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-sm font-semibold bg-indigo-50 text-indigo-700 rounded-2xl">
+                    <span class="mr-3">👤</span> My Profile
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                    <span class="mr-3">📅</span> My Appointments
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                    <span class="mr-3">💊</span> Prescriptions
+                </a>
+            </nav>
+
+            <div class="p-6 border-t border-slate-100">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="w-full flex items-center px-4 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 rounded-2xl transition-all group">
+                        <span class="mr-3 group-hover:rotate-12 transition-transform">📤</span> Sign Out
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <!-- Header -->
+            <header class="flex justify-between items-center px-10 py-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Profile Settings</h2>
+                    <p class="text-slate-500 text-sm mt-1">Manage your personal and medical information.</p>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <a th:href="@{/dashboard}" class="text-slate-400 hover:text-slate-600 transition-colors">
+                        <span class="text-2xl">✕</span>
+                    </a>
+                </div>
+            </header>
+
+            <div class="px-10 pb-12">
+                <!-- Form Mapping to Patient Entity -->
+                <form th:action="@{/profile/update}" th:object="${patient}" method="post" class="max-w-5xl">
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        
+                        <!-- Left & Middle: Input Fields -->
+                        <div class="lg:col-span-2 space-y-6">
+                            
+                            <!-- Personal Section -->
+                            <section class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100">
+                                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                                    <span class="mr-3 text-indigo-500">👤</span> Personal Details
+                                </h3>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <!-- Full Name (mapped to fullName property) -->
+                                    <div class="md:col-span-2">
+                                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Full Name</label>
+                                        <input type="text" th:field="*{fullname}" 
+                                               class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                                               placeholder="Enter your full name">
+                                    </div>
+
+                                    <!-- Date of Birth -->
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Date of Birth</label>
+                                        <input type="date" th:field="*{dob}"
+                                               class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                                    </div>
+
+                                    <!-- Gender -->
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Gender</label>
+                                        <select th:field="*{gender}" 
+                                                class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                                            <option value="" disabled>Select Gender</option>
+                                            <option value="MALE">Male</option>
+                                            <option value="FEMALE">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Insurance Section -->
+                            <section class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100">
+                                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                                    <span class="mr-3 text-indigo-500">🛡️</span> Coverage
+                                </h3>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Insurance Provider</label>
+                                    <input type="text" th:field="*{insuranceProvider}"
+                                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                                           placeholder="e.g. Aetna, Blue Cross, Cigna">
+                                </div>
+                            </section>
+
+                            <!-- Medical History Section -->
+                            <section class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100">
+                                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                                    <span class="mr-3 text-indigo-500">📋</span> Medical History
+                                </h3>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Clinical Notes</label>
+                                    <textarea th:field="*{medicalHistory}" rows="6"
+                                              class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                                              placeholder="Briefly describe your medical history, allergies, or chronic conditions..."></textarea>
+                                </div>
+                            </section>
+                        </div>
+
+                        <!-- Right Column: Actions -->
+                        <div class="space-y-6">
+                            <div class="bg-indigo-600 p-8 rounded-[2rem] text-white shadow-xl shadow-indigo-200 sticky top-8">
+                                <div class="w-12 h-12 bg-indigo-500 rounded-2xl flex items-center justify-center text-2xl mb-6">💾</div>
+                                <h4 class="font-bold text-xl mb-2">Save Changes</h4>
+                                <p class="text-indigo-100 text-sm mb-8 leading-relaxed">
+                                    Updating your profile ensures your doctors have the most current information for your appointments.
+                                </p>
+                                
+                                <button type="submit" class="w-full bg-white text-indigo-600 py-4 rounded-2xl font-bold shadow-lg hover:bg-indigo-50 transform hover:-translate-y-1 transition-all duration-200">
+                                    Update Profile
+                                </button>
+                                
+                                <a th:href="@{/dashboard}" class="block text-center mt-6 text-sm font-medium text-indigo-200 hover:text-white transition-colors">
+                                    Discard and Go Back
+                                </a>
+                            </div>
+
+                            <!-- Security Notice -->
+                            <div class="bg-slate-100/50 border border-slate-200 p-6 rounded-[2rem]">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Privacy Policy</p>
+                                <p class="text-xs text-slate-500 leading-relaxed">
+                                    HealSync uses industry-standard encryption to protect your sensitive health data. Your information is only shared with authorized healthcare providers.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

@@ -15,9 +15,9 @@ import com.example.dr_appl.model.enums.RoomStatus;   // ADDED: Import for Enums
 @Controller
 public class HomeController {
 
-    @Autowired private AppointmentService appointmentService;
-    @Autowired private DoctorRepository doctorRepository;
-    @Autowired private RoomRepository roomRepository;
+    // @Autowired private AppointmentService appointmentService;
+    // @Autowired private DoctorRepository doctorRepository;
+    // @Autowired private RoomRepository roomRepository;
 
     // @GetMapping("/dashboard")
     // public String dashboard(Model model) {

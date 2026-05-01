@@ -5,11 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;  
 import org.springframework.web.bind.annotation.GetMapping;
-
-// Spring Security Imports
 import org.springframework.security.core.Authentication; // Needed for 'Authentication'
-
-// Your Project Specific Imports
 import com.example.dr_appl.model.User;  
 import com.example.dr_appl.repository.UserRepository;  
 
@@ -29,7 +25,7 @@ public String showDashboard(Authentication authentication, Model model) {
             // Admin sees the total system overview
             model.addAttribute("totalDoctors", userRepository.countByRole("DOCTOR"));
             model.addAttribute("totalPatients", userRepository.countByRole("PATIENT"));
-            return "dashboard"; // Use the original file for Admin
+            return "dashboard";  
             
         case "DOCTOR":
             return "doctor-dashboard";
