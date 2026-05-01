@@ -1,4 +1,4 @@
-package com.example.dr_appl.controller;
+package com.example.dr_appl.controller.patient;
 
 import com.example.dr_appl.model.entity.Patient;
 import com.example.dr_appl.service.PatientService;
@@ -11,7 +11,7 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("/profile")
-public class ProfileController {
+public class PatientProfileController {
 
     @Autowired
     private PatientService patientService;

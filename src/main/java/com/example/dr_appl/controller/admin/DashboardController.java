@@ -1,4 +1,4 @@
-package com.example.dr_appl.controller;
+package com.example.dr_appl.controller.admin;
 
 // Standard Spring MVC Imports
 import org.springframework.beans.factory.annotation.Autowired;

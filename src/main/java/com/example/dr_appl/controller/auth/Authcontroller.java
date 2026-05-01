@@ -1,4 +1,4 @@
-package com.example.dr_appl.controller;
+package com.example.dr_appl.controller.auth;
 
 import com.example.dr_appl.model.User;
 import com.example.dr_appl.model.entity.Doctor;
@@ -69,4 +69,8 @@ public String registerDoc(@ModelAttribute("user") User user) {
 
     return "redirect:/doctors?success=true";
 }
+ @PostMapping("/login?logout")
+    public String Logut(){
+        return "redirect :/login?logout";
+    }
 }
