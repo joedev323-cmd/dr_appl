@@ -120,9 +120,12 @@
                                         <p class="text-sm font-bold text-slate-700" th:text="${#temporals.format(slot.startTime, 'HH:mm')}">09:00</p>
                                         <p class="text-[10px] text-slate-400 uppercase" th:text="${slot.room.roomName}">Room 101</p>
                                     </div>
-                                    <form th:action="@{/doctor/availability/delete/{id}(id=${slot.id})}" method="post">
-                                        <button type="submit" class="text-slate-300 hover:text-rose-500 transition-colors">✕</button>
-                                    </form>
+                                    <form th:action="@{/doctor/availability/delete/{id}(id=${slot.availabilityId})}" method="post">
+            <button type="submit" class="text-red-500 hover:text-red-700" 
+                    onclick="return confirm('Are you sure?')">
+                Delete
+            </button>
+        </form>
                                 </div>
                             </div>
                         </div>
