@@ -96,6 +96,11 @@ public String deleteSlot(@PathVariable("id") Long id) {
     return "redirect:/doctor/availability";
 }
 
+@DeleteMapping("/api/delete/{id}")
+@ResponseBody
+public void deleteSlotApi(@PathVariable Long id) {
+    availabilityRepository.deleteById(id);
+}
  @GetMapping("/api/events")
 @ResponseBody
 public List<Map<String, Object>> getEvents(Principal principal) {
