@@ -121,11 +121,11 @@
                                         <p class="text-[10px] text-slate-400 uppercase" th:text="${slot.room.roomName}">Room 101</p>
                                     </div>
                                     <form th:action="@{/doctor/availability/delete/{id}(id=${slot.availabilityId})}" method="post">
-            <button type="submit" class="text-red-500 hover:text-red-700" 
-                    onclick="return confirm('Are you sure?')">
-                Delete
-            </button>
-        </form>
+                                            <button type="submit" class="text-red-500 hover:text-red-700" 
+                                                    onclick="return confirm('Are you sure?')">
+                                                            Delete
+                                            </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
