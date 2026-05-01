@@ -14,27 +14,31 @@ public class DashboardController {
 
     @Autowired
     private UserRepository userRepository;
- @GetMapping("/dashboard")
-public String showDashboard(Authentication authentication, Model model) {
-    String email = authentication.getName();
-    User user = userRepository.findByEmail(email);
-    model.addAttribute("user", user);
 
-    switch (user.getRole()) {
-        case "ADMIN":
-            // Admin sees the total system overview
-            model.addAttribute("totalDoctors", userRepository.countByRole("DOCTOR"));
-            model.addAttribute("totalPatients", userRepository.countByRole("PATIENT"));
-            return "dashboard";  
+    @GetMapping("/dashboard")
+    public String showDashboard(Authentication authentication, Model model) {
+        
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email);
+
+        model.addAttribute("user", user);
+
+        switch (user.getRole()) {
+            case "ADMIN":
+                // Admin sees the total system overview
+                model.addAttribute("totalDoctors", userRepository.countByRole("DOCTOR"));
+                model.addAttribute("totalPatients", userRepository.countByRole("PATIENT"));
+             return "dashboard";  
             
-        case "DOCTOR":
-            return "doctor-dashboard";
+            case "DOCTOR":
+                return "doctor-dashboard";
             
-        case "PATIENT":
-            return "patient-dashboard";
+            case "PATIENT":
+                return "patient-dashboard";
             
-        default:
-            return "redirect:/login?error";
+            default:
+                return "redirect:/login?error";
+        }
     }
-}
 }
