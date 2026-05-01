@@ -38,8 +38,7 @@ public class Availability {
     private boolean isBooked = false;
 
     
-    public Availability() {
-    }
+    public Availability() {}
     
     public Availability(Long id, Doctor doctor, Room room, LocalDateTime startTime, LocalDateTime endTime,
             boolean isBooked) {
