@@ -19,11 +19,11 @@ public class SecurityConfig {
     .requestMatchers("/", "/signup", "/login", "/style.css", "/img/**").permitAll()
 
     // 2. Admin Only (Management tasks)
-    .requestMatchers("/doctors/**", "/rooms/**").hasRole("ADMIN")
+    .requestMatchers("/doctors/**", "/rooms/**","/appointmt/**").hasRole("ADMIN")
 
     // 3. Doctor Only (Consultation tasks)
-    // .requestMatchers("/doctor/schedule/**").hasRole("DOCTOR")
-
+     .requestMatchers("/doctor/schedule/**").hasRole("DOCTOR")
+            .requestMatchers("/profile/**").authenticated()
     // 4. Patient Only (Booking tasks)
     .requestMatchers("/appointmt/**").hasRole("PATIENT")
 

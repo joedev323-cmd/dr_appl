@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealSync | Edit Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <aside class="w-72 bg-white border-r border-slate-200 hidden md:flex flex-col">
+            <div class="p-8">
+                <h1 class="text-2xl font-bold text-teal-600 tracking-tight">HealSync</h1>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Medical Professional</p>
+            </div>
+            
+            <nav class="flex-1 px-4 space-y-1">
+                <a th:href="@{/doctor/dashboard}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-teal-600 rounded-2xl transition-all">
+                    <span class="mr-3">📊</span> Overview
+                </a>
+                <a th:href="@{/doctor/profile}" class="flex items-center px-4 py-3 text-sm font-semibold bg-teal-50 text-teal-700 rounded-2xl">
+                    <span class="mr-3">👤</span> Edit Profile
+                </a>
+            </nav>
+
+            <div class="p-6 border-t border-slate-100">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="w-full flex items-center px-4 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 rounded-2xl transition-all group">
+                        <span class="mr-3 group-hover:rotate-12 transition-transform">📤</span> Sign Out
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <header class="px-10 py-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-800">Edit Credentials</h2>
+                        <p class="text-slate-500 text-sm mt-1">Refine your professional information and availability.</p>
+                    </div>
+                    <a th:href="@{/doctor/profile}" class="text-sm font-semibold text-teal-600 hover:text-teal-700 underline">View Public Profile</a>
+                </div>
+            </header>
+
+            <div class="px-10 pb-12">
+                <div class="max-w-3xl">
+                    <!-- Profile Form -->
+                    <form th:action="@{/doctor/profile/update}" method="post" th:object="${doctor}">
+                        
+                        <!-- Hidden ID: Crucial for JPA Update -->
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-8 mb-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                
+                                <!-- Full Name -->
+                                <div class="md:col-span-2">
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Full Name</label>
+                                    <input type="text" th:field="*{name}" required
+                                           class="w-full px-4 py-4 rounded-xl bg-slate-50 border-2 border-transparent focus:border-teal-500 focus:bg-white focus:ring-0 transition-all text-sm font-medium outline-none">
+                                </div>
+
+                                <!-- Specialization -->
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Specialization</label>
+                                    <input type="text" th:field="*{specialization}" required
+                                           class="w-full px-4 py-4 rounded-xl bg-slate-50 border-2 border-transparent focus:border-teal-500 focus:bg-white focus:ring-0 transition-all text-sm font-medium outline-none">
+                                </div>
+
+                                <!-- Years of Experience -->
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Experience Level</label>
+                                    <input type="text" th:field="*{yearsofExperience}" required
+                                           class="w-full px-4 py-4 rounded-xl bg-slate-50 border-2 border-transparent focus:border-teal-500 focus:bg-white focus:ring-0 transition-all text-sm font-medium outline-none">
+                                </div>
+
+                                <!-- Status Selection -->
+                                <div class="md:col-span-2">
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Availability Status</label>
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <!-- FREE -->
+                                        <label class="group relative flex items-center justify-center p-5 rounded-2xl bg-slate-50 cursor-pointer border-2 border-transparent hover:bg-slate-100 transition-all has-[:checked]:border-teal-500 has-[:checked]:bg-teal-50">
+                                            <input type="radio" th:field="*{status}" value="FREE" class="sr-only">
+                                            <div class="text-center">
+                                                <span class="block text-2xl mb-1">🟢</span>
+                                                <span class="block text-[10px] font-black text-slate-400 group-has-[:checked]:text-teal-700 uppercase tracking-tighter">Available</span>
+                                            </div>
+                                        </label>
+
+                                        <!-- BUSY -->
+                                        <label class="group relative flex items-center justify-center p-5 rounded-2xl bg-slate-50 cursor-pointer border-2 border-transparent hover:bg-slate-100 transition-all has-[:checked]:border-amber-500 has-[:checked]:bg-amber-50">
+                                            <input type="radio" th:field="*{status}" value="BUSY" class="sr-only">
+                                            <div class="text-center">
+                                                <span class="block text-2xl mb-1">🟡</span>
+                                                <span class="block text-[10px] font-black text-slate-400 group-has-[:checked]:text-amber-700 uppercase tracking-tighter">In Session</span>
+                                            </div>
+                                        </label>
+
+                                        <!-- ONLEAVE -->
+                                        <label class="group relative flex items-center justify-center p-5 rounded-2xl bg-slate-50 cursor-pointer border-2 border-transparent hover:bg-slate-100 transition-all has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50">
+                                            <input type="radio" th:field="*{status}" value="ONLEAVE" class="sr-only">
+                                            <div class="text-center">
+                                                <span class="block text-2xl mb-1">🔴</span>
+                                                <span class="block text-[10px] font-black text-slate-400 group-has-[:checked]:text-rose-700 uppercase tracking-tighter">Away</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Footer -->
+                        <div class="flex items-center justify-between bg-white border border-slate-100 p-6 rounded-[2rem] shadow-sm">
+                            <div class="flex items-center text-slate-400">
+                                <span class="text-lg mr-2">🔒</span>
+                                <p class="text-[10px] uppercase font-bold tracking-widest">Secure Profile Update</p>
+                            </div>
+                            <div class="flex space-x-3">
+                                <a th:href="@{/doctor/profile}" class="px-8 py-3 rounded-full text-sm font-bold text-slate-500 hover:bg-slate-50 transition">Discard</a>
+                                <button type="submit" class="bg-slate-900 text-white px-10 py-3 rounded-full text-sm font-bold hover:bg-teal-600 transition shadow-xl transition-all">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
