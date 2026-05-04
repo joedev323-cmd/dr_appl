@@ -1,4 +1,4 @@
-package com.example.dr_appl.controller.doctor;
+package com.example.dr_appl.controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;

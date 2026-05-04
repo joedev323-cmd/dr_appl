@@ -21,7 +21,7 @@
                 <a href="#" class="flex items-center px-4 py-3 text-sm font-semibold bg-teal-50 text-teal-700 rounded-2xl">
                     <span class="mr-3">📊</span> Overview
                 </a>
-                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-teal-600 rounded-2xl transition-all">
+                <a th:href="@{doctor/patients}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-teal-600 rounded-2xl transition-all">
                     <span class="mr-3">👥</span> My Patients
                 </a>
                 <a th:href="@{doctor/availability}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-teal-600 rounded-2xl transition-all">
@@ -67,7 +67,7 @@
             </div>
             <div class="text-left hidden lg:block">
                 <p class="text-xs font-bold text-slate-800 leading-tight">My Profile</p>
-                <!-- <p class="text-[10px] text-slate-400 font-medium italic" th:text="${user.specialization}">Cardiologist</p> -->
+                <p th:text="${user.doctor?.specialization ?: 'General Practitioner'}">Cardiologist</p>
             </div>
         </a>
 

@@ -64,4 +64,5 @@ public class DoctorProfileController {
         return doctorRepository.findByUserEmail(email)
                 .orElseThrow(() -> new RuntimeException("Doctor profile not found for: " + email));
     }
+    
 }
