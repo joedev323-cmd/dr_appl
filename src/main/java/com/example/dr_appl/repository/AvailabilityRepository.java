@@ -30,4 +30,11 @@ public interface AvailabilityRepository extends JpaRepository<Availability, Long
     boolean isDoctorBusy(@Param("doctor") Doctor doctor, 
                          @Param("start") LocalDateTime start, 
                          @Param("end") LocalDateTime end);
+
+    // Finds all slots for doctors who are NOT suspended and NOT on leave
+@Query("SELECT a FROM Availability a WHERE a.doctor.adminStatus = 'ACTIVE' " +
+       "AND a.doctor.doctorIntent = 'AVAILABLE' " +
+       "AND a.startTime >= :now")
+List<Availability> findAllActiveAvailableSlots(@Param("now") LocalDateTime now);
+
 }

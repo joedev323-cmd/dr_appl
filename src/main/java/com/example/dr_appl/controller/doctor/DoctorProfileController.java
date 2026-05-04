@@ -47,7 +47,7 @@ public class DoctorProfileController {
         existingDoctor.setName(doctorData.getName());
         existingDoctor.setSpecialization(doctorData.getSpecialization());
         existingDoctor.setYearsofExperience(doctorData.getYearsofExperience());
-        existingDoctor.setStatus(doctorData.getStatus());
+        existingDoctor.setDoctorIntent(doctorData.getDoctorIntent());
         
         // Note: Usually, you don't let doctors change their own 'status' 
         // or 'user' link via a profile form for security/admin reasons.

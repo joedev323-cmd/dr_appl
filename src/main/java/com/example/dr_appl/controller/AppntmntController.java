@@ -39,7 +39,7 @@ public class AppntmntController {
 
         List<LocalTime> timeSlots = appointmentService.generateAvailableSlots(today,firstRoom);
         model.addAttribute("slots", timeSlots);
-        model.addAttribute("doctors", doctorRepo.findByStatus(DoctorStatus.FREE));
+        model.addAttribute("doctors", doctorRepo.findByDoctorIntent(DoctorStatus.FREE));
         model.addAttribute("rooms", roomRepo.findByRoomStatus(RoomStatus.FREE));
         model.addAttribute("appointment", new Appointment());
         return "appointmt";

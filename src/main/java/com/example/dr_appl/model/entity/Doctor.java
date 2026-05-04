@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.dr_appl.model.User;
-import com.example.dr_appl.model.enums.DoctorStatus;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,6 +15,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
+import com.example.dr_appl.model.enums.*;
 
 @Entity
 @Table(name = "Doctors")
@@ -24,39 +25,45 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+
+    // We keep specialization and experience here as they are unique to the medical role
     private String specialization;
     private String yearsofExperience;
+
+    // 1. ADMIN POWER: Global switch for system access
     @Enumerated(EnumType.STRING)
-    private DoctorStatus status;
+    private AdminControlStatus adminStatus = AdminControlStatus.ACTIVE;
+    private String name;
+  
+    // 2. DOCTOR POWER: Personal availability intent
+    @Enumerated(EnumType.STRING)
+    private DoctorIntent doctorIntent = DoctorIntent.AVAILABLE;
     
     @OneToOne
-   @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user; // Links back to the User identity
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user; 
       
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     private List<Availability> schedules = new ArrayList<>();    
+
     public Doctor(){}
-    
-    public Doctor(Long id, String name, String specialization, String yearsofExperience, DoctorStatus status,
-            User user) {
-        this.id = id;
-        this.name = name;
-        this.specialization = specialization;
-        this.yearsofExperience = yearsofExperience;
-        this.status = status;
-        this.user = user;
+
+    // 3. SMART STATUS LOGIC: This is the "Truth" the patient sees
+    // We use @Transient so Hibernate doesn't try to create a column for this
+    @Transient
+    public String getCalculatedStatus(boolean hasActiveAppointment) {
+        if (this.adminStatus == AdminControlStatus.SUSPENDED) return "System Suspended";
+        if (this.doctorIntent == DoctorIntent.ON_LEAVE) return "On Leave";
+        if (hasActiveAppointment) return "Busy (In Session)";
+        return "Available";
     }
 
-    public Long getId() {
-        return id;
-    }
+    // --- GETTERS & SETTERS ---
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getName() {
+      public String getName() {
         return name;
     }
 
@@ -64,39 +71,21 @@ public class Doctor {
         this.name = name;
     }
 
-    public String getSpecialization() {
-        return specialization;
-    }
+    public String getSpecialization() { return specialization; }
+    public void setSpecialization(String specialization) { this.specialization = specialization; }
 
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
-    }
+    public String getYearsofExperience() { return yearsofExperience; }
+    public void setYearsofExperience(String yearsofExperience) { this.yearsofExperience = yearsofExperience; }
 
-    public String getYearsofExperience() {
-        return yearsofExperience;
-    }
+    public AdminControlStatus getAdminStatus() { return adminStatus; }
+    public void setAdminStatus(AdminControlStatus adminStatus) { this.adminStatus = adminStatus; }
 
-    public void setYearsofExperience(String yearsofExperience) {
-        this.yearsofExperience = yearsofExperience;
-    }
+    public DoctorIntent getDoctorIntent() { return doctorIntent; }
+    public void setDoctorIntent(DoctorIntent doctorIntent) { this.doctorIntent = doctorIntent; }
 
-    public DoctorStatus getStatus() {
-        return status;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
-    public void setStatus(DoctorStatus status) {
-        this.status = status;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
-    
-     
-    
+    public List<Availability> getSchedules() { return schedules; }
+    public void setSchedules(List<Availability> schedules) { this.schedules = schedules; }
 }

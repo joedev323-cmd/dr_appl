@@ -50,6 +50,10 @@ public class Availability {
         this.isBooked = isBooked;
     }
 
+    public Availability(Doctor doctor2, Room room2, LocalDateTime start, LocalDateTime end) {
+        //TODO Auto-generated constructor stub
+    }
+
     public Long getId() {
         return id;
     }
