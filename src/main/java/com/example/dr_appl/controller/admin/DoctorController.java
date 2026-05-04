@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
  
 
 @Controller
-@RequestMapping("/doctors") // Or wherever your path is
+@RequestMapping("/doctors") 
 public class DoctorController {
 
     @Autowired

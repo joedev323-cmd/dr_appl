@@ -67,7 +67,7 @@ public String registerDoc(@ModelAttribute("user") User user) {
     user.setDoctor(doctor); 
     userRepository.save(user);
 
-    return "redirect:/doctors?success=true";
+    return "redirect:/doctors/register?success=true";
 }
  @PostMapping("/login?logout")
     public String Logut(){

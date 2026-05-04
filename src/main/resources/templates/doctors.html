@@ -11,6 +11,7 @@
 <body class="bg-slate-50 text-slate-900 antialiased">
 
     <div class="min-h-screen flex">
+        <!-- Sidebar -->
         <aside class="w-72 bg-white border-r border-slate-200 hidden md:flex flex-col">
             <div class="p-8">
                 <h1 class="text-2xl font-bold text-slate-800 tracking-tight">HealSync<span class="text-rose-600">.</span>Admin</h1>
@@ -20,7 +21,7 @@
                 <a th:href="@{/dashboard}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
                     <span class="mr-3">⚙️</span> System Overview
                 </a>
-                <a href="#" class="flex items-center px-4 py-3 text-sm font-semibold bg-slate-900 text-white rounded-2xl transition-all shadow-lg shadow-slate-200">
+                <a th:href="@{/doctors/manage}" class="flex items-center px-4 py-3 text-sm font-semibold bg-slate-900 text-white rounded-2xl transition-all shadow-lg shadow-slate-200">
                     <span class="mr-3">🩺</span> Manage Doctors
                 </a>
                 <a th:href="@{/rooms}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
@@ -40,6 +41,7 @@
             </div>
         </aside>
 
+        <!-- Main Content -->
         <main class="flex-1 overflow-y-auto">
             <header class="flex justify-between items-center px-10 py-8">
                 <div>
@@ -53,36 +55,47 @@
                                class="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all">
                         <span class="absolute left-3 top-2.5 text-slate-400">🔍</span>
                     </div>
-                        <a th:href="@{/doctors/register}"   class="bg-rose-600 text-white hover:bg-rose-700 px-6 py-3 rounded-xl text-sm font-bold transition text-center inline-block">
-                           + Register New Doctor
-                        </a>
+                    <a th:href="@{/doctors/register}" class="bg-rose-600 text-white hover:bg-rose-700 px-6 py-3 rounded-xl text-sm font-bold transition text-center inline-block">
+                        + Register New Doctor
+                    </a>
                 </div>
             </header>
 
             <div class="px-10 pb-12">
+                <!-- Grid of Doctor Cards -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     
                     <div th:each="doc : ${doctors}" class="bg-white p-6 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-md transition-all group">
                         <div class="flex flex-col items-center text-center">
+                            
+                            <!-- Avatar Initial (Safe check for User object) -->
                             <div class="w-24 h-24 rounded-full bg-rose-50 flex items-center justify-center mb-4 ring-4 ring-slate-50 group-hover:ring-rose-100 transition-all">
-                                <span class="text-3xl font-bold text-rose-600" th:text="${doc.firstName.substring(0,1)}">D</span>
+                                <span class="text-3xl font-bold text-rose-600" 
+                                      th:text="${doc.user != null && doc.user.firstName != null ? doc.user.firstName.substring(0,1) : 'D'}">D</span>
                             </div>
                             
-                            <h3 class="text-lg font-bold text-slate-800" th:text="${'Dr. ' + doc.firstName + ' ' + doc.lastName}">Dr. Name</h3>
-                            <span class="px-3 py-1 bg-rose-100 text-rose-700 text-[10px] font-bold uppercase rounded-full mt-2" 
-                                  th:text="${doc.email}">Email@healsync.com</span>
+                            <!-- Name Display -->
+                            <h3 class="text-lg font-bold text-slate-800" 
+                                th:text="${doc.user != null ? 'Dr. ' + doc.user.firstName + ' ' + doc.user.lastName : 'Unknown Specialist'}">Dr. Name</h3>
                             
+                            <!-- Email -->
+                            <span class="px-3 py-1 bg-rose-100 text-rose-700 text-[10px] font-bold uppercase rounded-full mt-2" 
+                                  th:text="${doc.user != null ? doc.user.email : 'No Email Recorded'}">Email@healsync.com</span>
+                            
+                            <!-- Specialty and Status -->
                             <div class="mt-6 w-full grid grid-cols-2 border-t border-slate-50 pt-4 gap-2">
                                 <div class="text-center">
-                                    <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Access</p>
-                                    <p class="text-sm font-semibold text-slate-700">Doctor</p>
+                                    <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Specialty</p>
+                                    <p class="text-sm font-semibold text-slate-700" th:text="${doc.specialization}">General</p>
                                 </div>
                                 <div class="text-center border-l border-slate-50">
                                     <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Status</p>
-                                    <p class="text-sm font-semibold text-emerald-600">Active</p>
+                                    <!-- Use status color logic -->
+                                    <p class="text-sm font-semibold text-emerald-600" th:text="${doc.status}">Active</p>
                                 </div>
                             </div>
 
+                            <!-- Action Buttons -->
                             <div class="mt-6 flex space-x-2 w-full">
                                 <button class="flex-1 py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition">Edit Account</button>
                                 <button class="flex-1 py-2.5 bg-slate-100 text-rose-600 text-xs font-bold rounded-xl hover:bg-rose-50 transition border border-rose-100">Revoke</button>
@@ -90,6 +103,7 @@
                         </div>
                     </div>
 
+                    <!-- Empty State -->
                     <div th:if="${#lists.isEmpty(doctors)}" class="col-span-full bg-white p-12 rounded-[2.5rem] border border-dashed border-slate-300 flex flex-col items-center justify-center text-slate-400">
                         <span class="text-4xl mb-4">🩺</span>
                         <p class="font-medium">No medical staff found in the directory.</p>
