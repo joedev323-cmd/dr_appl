@@ -86,7 +86,7 @@
                                     <div class="grid grid-cols-3 gap-4">
                                         <!-- FREE -->
                                         <label class="group relative flex items-center justify-center p-5 rounded-2xl bg-slate-50 cursor-pointer border-2 border-transparent hover:bg-slate-100 transition-all has-[:checked]:border-teal-500 has-[:checked]:bg-teal-50">
-                                            <input type="radio" th:field="*{status}" value="FREE" class="sr-only">
+                                            <input type="radio" th:field="*{doctorIntent}" value="AVAILABLE" class="sr-only">
                                             <div class="text-center">
                                                 <span class="block text-2xl mb-1">🟢</span>
                                                 <span class="block text-[10px] font-black text-slate-400 group-has-[:checked]:text-teal-700 uppercase tracking-tighter">Available</span>
@@ -95,7 +95,7 @@
 
                                         <!-- BUSY -->
                                         <label class="group relative flex items-center justify-center p-5 rounded-2xl bg-slate-50 cursor-pointer border-2 border-transparent hover:bg-slate-100 transition-all has-[:checked]:border-amber-500 has-[:checked]:bg-amber-50">
-                                            <input type="radio" th:field="*{status}" value="BUSY" class="sr-only">
+                                            <input type="radio" th:field="*{doctorIntent}" value="BUSY" class="sr-only">
                                             <div class="text-center">
                                                 <span class="block text-2xl mb-1">🟡</span>
                                                 <span class="block text-[10px] font-black text-slate-400 group-has-[:checked]:text-amber-700 uppercase tracking-tighter">In Session</span>
@@ -104,7 +104,7 @@
 
                                         <!-- ONLEAVE -->
                                         <label class="group relative flex items-center justify-center p-5 rounded-2xl bg-slate-50 cursor-pointer border-2 border-transparent hover:bg-slate-100 transition-all has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50">
-                                            <input type="radio" th:field="*{status}" value="ONLEAVE" class="sr-only">
+                                            <input type="radio" th:field="*{doctorIntent}" value="ON_LEAVE" class="sr-only">
                                             <div class="text-center">
                                                 <span class="block text-2xl mb-1">🔴</span>
                                                 <span class="block text-[10px] font-black text-slate-400 group-has-[:checked]:text-rose-700 uppercase tracking-tighter">Away</span>
