@@ -26,8 +26,16 @@ public class Room {
     @Version
     private Integer version;  
     
+    
+    
     public Room() {}
     
+    public Room(Long roomId, String roomName, RoomStatus roomStatus, Integer version) {
+        this.roomId = roomId;
+        this.roomName = roomName;
+        this.roomStatus = roomStatus;
+        this.version = version;
+    }
 
     public String getRoomName() {
         return roomName;
@@ -42,7 +50,7 @@ public class Room {
         this.roomStatus = roomStatus;
     }
 
-    public Long getRoomid() {
+    public Long getRoomId() {
         return roomId;
     }
 
