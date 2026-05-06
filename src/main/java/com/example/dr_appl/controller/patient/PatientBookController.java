@@ -24,7 +24,18 @@ public class PatientBookController {
         this.appointmentService = appointmentService;
         this.doctorService = doctorService;
     }
+
+    @GetMapping("/appointments/book")
+public String showBookingPage(Model model) {
+    // 1. Get doctors for the dropdown
+    model.addAttribute("availableDoctors", doctorService.findAll());
     
+    // 2. IMPORTANT: Pass an empty DTO so th:object="${appointmentDTO}" works
+    model.addAttribute("appointmentDTO", new AppointmentDTO());
+    
+    return "pat-book"; 
+}
+
     // 2. Your existing POST mapping
     @PostMapping("/appointments/book")
     public String bookAppointment(@ModelAttribute AppointmentDTO appointmentDTO, RedirectAttributes redirectAttributes) {
