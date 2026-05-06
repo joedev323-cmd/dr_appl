@@ -21,17 +21,17 @@ import org.springframework.ui.Model;
 public class DoctorController {
 
     @Autowired
-    private DoctorRepository doctorRepository; // Assuming you have a JPA repository
+    private DoctorRepository doctorRepository;  
 
     @GetMapping("/manage")
     public String showManageDoctorsPage(Model model) {
-        // Fetch all doctors from the database
+        
         List<Doctor> doctorList = doctorRepository.findAll();
         
-        // This key "doctors" must match th:each="doc : ${doctors}" in your HTML
+        
         model.addAttribute("doctors", doctorList);
         
-        return "doctors"; // The name of your .html file
+        return "doctors";  
     }
 
     @PostMapping("/toggle-status/{id}")
@@ -59,7 +59,7 @@ public String showEditForm(@PathVariable Long id, Model model) {
     // 2. Add to model so the form can see the data
     model.addAttribute("doctor", doctor);
     
-    // 3. Return the name of your edit HTML file (e.g., edit-doctor.html)
+    // 3. Return the name of  HTML file (e.g., edit-doctor.html)
     return "edit-doctor"; 
 }
 

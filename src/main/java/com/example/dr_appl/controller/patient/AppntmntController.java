@@ -1,8 +1,8 @@
-package com.example.dr_appl.controller;
+package com.example.dr_appl.controller.patient;
 
 import com.example.dr_appl.model.entity.Appointment;
 import com.example.dr_appl.model.entity.Room;
-import com.example.dr_appl.model.enums.DoctorStatus;
+import com.example.dr_appl.model.enums.DoctorIntent;
 import com.example.dr_appl.model.enums.RoomStatus;
 import com.example.dr_appl.repository.*;
 import com.example.dr_appl.service.AppointmentService;
@@ -31,7 +31,7 @@ public class AppntmntController {
         this.appointmentService = appointmentService;
     }
 
-    @GetMapping("/appointmt")
+    @GetMapping("/pat-appointmt")
     public String index(Model model) {
        
         java.time.LocalDate today = java.time.LocalDate.now();
@@ -39,10 +39,10 @@ public class AppntmntController {
 
         List<LocalTime> timeSlots = appointmentService.generateAvailableSlots(today,firstRoom);
         model.addAttribute("slots", timeSlots);
-        model.addAttribute("doctors", doctorRepo.findByDoctorIntent(DoctorStatus.FREE));
+        model.addAttribute("doctors", doctorRepo.findByDoctorIntent(DoctorIntent.AVAILABLE));
         model.addAttribute("rooms", roomRepo.findByRoomStatus(RoomStatus.FREE));
         model.addAttribute("appointment", new Appointment());
-        return "appointmt";
+        return "pat-appointm";
     }
     
     
