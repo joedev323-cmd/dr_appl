@@ -48,8 +48,6 @@ public class Doctor {
 
     public Doctor(){}
 
-    // 3. SMART STATUS LOGIC: This is the "Truth" the patient sees
-    // We use @Transient so Hibernate doesn't try to create a column for this
     @Transient
     public String getCalculatedStatus(boolean hasActiveAppointment) {
         if (this.adminStatus == AdminControlStatus.SUSPENDED) return "System Suspended";
@@ -71,21 +69,47 @@ public class Doctor {
         this.name = name;
     }
 
-    public String getSpecialization() { return specialization; }
-    public void setSpecialization(String specialization) { this.specialization = specialization; }
+    public String getSpecialization() { 
+        return specialization; 
+    }
+    public void setSpecialization(String specialization) { 
+        this.specialization = specialization; 
+    }
 
-    public String getYearsofExperience() { return yearsofExperience; }
-    public void setYearsofExperience(String yearsofExperience) { this.yearsofExperience = yearsofExperience; }
+    public String getYearsofExperience() { 
+        return yearsofExperience; 
+    }
+    public void setYearsofExperience(String yearsofExperience) { 
+        this.yearsofExperience = yearsofExperience; 
+    }
 
-    public AdminControlStatus getAdminStatus() { return adminStatus; }
-    public void setAdminStatus(AdminControlStatus adminStatus) { this.adminStatus = adminStatus; }
+    public AdminControlStatus getAdminStatus() { 
+        return adminStatus; 
+    }
+    public void setAdminStatus(AdminControlStatus adminStatus) { 
+        this.adminStatus = adminStatus; 
+    }
 
-    public DoctorIntent getDoctorIntent() { return doctorIntent; }
-    public void setDoctorIntent(DoctorIntent doctorIntent) { this.doctorIntent = doctorIntent; }
+    public DoctorIntent getDoctorIntent() { 
+        return doctorIntent;
+     }
+    public void setDoctorIntent(DoctorIntent doctorIntent) { 
+        this.doctorIntent = doctorIntent;
+     }
 
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public User getUser() { 
+        return user;
+     }
+    public void setUser(User user) { 
+        this.user = user; 
+    }
 
-    public List<Availability> getSchedules() { return schedules; }
-    public void setSchedules(List<Availability> schedules) { this.schedules = schedules; }
+    public List<Availability> getSchedules() {
+         return schedules; 
+    }
+
+    public void setSchedules(List<Availability> schedules) { 
+        this.schedules = schedules; 
+    }
+
 }
