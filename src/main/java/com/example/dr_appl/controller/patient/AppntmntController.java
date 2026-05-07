@@ -27,7 +27,7 @@ public String showAppointmentDashboard(Model model) {
     java.time.LocalDate today = java.time.LocalDate.now();
     
     // 1. Fetch data from services
-    List<Doctor> doctors = doctorService.findAll();
+    List<Doctor> doctors = doctorService.findActiveDoctors();
     List<Appointment> appts = appointmentService.findAll();
 
     // 2. The names MUST match the "th:text" and "th:each" in your HTML

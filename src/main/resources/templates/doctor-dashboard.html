@@ -44,7 +44,10 @@
         <main class="flex-1 overflow-y-auto">
            <header class="flex justify-between items-center px-10 py-8">
     <div>
-        <h2 class="text-3xl font-bold text-slate-800" th:text="'Dr. ' + ${user.lastName}">Dr. Smith</h2>
+        <h2 class="text-3xl font-bold text-slate-800" 
+    th:text="${user?.doctor?.name != null} ? 'Dr. ' + ${user.doctor.name} : 'Dr. Guest'">
+    Dr. Smith
+</h2>
         <!-- Dynamic Date provided by your Thymeleaf expression -->
         <p class="text-slate-500 text-sm mt-1" th:text="${#dates.format(#dates.createNow(), 'EEEE, MMM dd, yyyy')}">Friday, May 01, 2026</p>
     </div>
@@ -63,7 +66,7 @@
         <a th:href="@{/doctor/profile}" class="flex items-center space-x-3 p-1.5 pr-4 rounded-full bg-white border border-slate-200 hover:border-teal-300 hover:shadow-md transition-all group">
             <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 font-bold border-2 border-white shadow-sm group-hover:bg-teal-600 group-hover:text-white transition-colors">
                 <!-- Takes first letter of first name -->
-                <span th:text="${#strings.substring(user.firstName,0,1)}">S</span>
+                <span th:text="${#strings.substring(user.doctor.name,0,1)}">S</span>
             </div>
             <div class="text-left hidden lg:block">
                 <p class="text-xs font-bold text-slate-800 leading-tight">My Profile</p>

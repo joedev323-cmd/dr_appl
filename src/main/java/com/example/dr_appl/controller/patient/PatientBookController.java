@@ -28,7 +28,7 @@ public class PatientBookController {
     @GetMapping("/appointments/book")
 public String showBookingPage(Model model) {
     // 1. Get doctors for the dropdown
-    model.addAttribute("availableDoctors", doctorService.findAll());
+    model.addAttribute("availableDoctors", doctorService.findActiveDoctors());
     
     // 2. IMPORTANT: Pass an empty DTO so th:object="${appointmentDTO}" works
     model.addAttribute("appointmentDTO", new AppointmentDTO());

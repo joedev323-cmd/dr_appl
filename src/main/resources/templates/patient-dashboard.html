@@ -50,21 +50,23 @@
         <main class="flex-1 overflow-y-auto">
          <header class="flex justify-between items-center px-10 py-8">
     <div>
-        <h2 class="text-3xl font-bold text-slate-800" th:text="'Hello, ' + ${user.firstName}">Hello, John</h2>
+        <h2 class="text-3xl font-bold text-slate-800" th:text="'Hello, ' + ${user.patient.fullname}">Hello, John</h2>
         <p class="text-slate-500 text-sm mt-1">We hope you're feeling well today.</p>
     </div>
     
     <div class="flex items-center space-x-6">
         <!-- New Appointment Button -->
-        <button class="bg-indigo-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
-            + New Appointment
-        </button>
-
+          <a th:href="@{/appointments/book}" 
+                            class="inline-flex items-center bg-indigo-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
+                            + Schedule New
+                    </a>
         <!-- Profile Button -->
         <a th:href="@{/profile}" class="flex items-center space-x-3 p-1.5 pr-4 rounded-full bg-white border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all group">
             <div class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border-2 border-white shadow-sm group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                
-                <span th:text="${#strings.substring(user.patient.fullname,0,1)}">J</span>
+                <span th:text="${user?.patient?.fullname != null && !user.patient.fullname.empty} 
+               ? ${#strings.substring(user.patient.fullname,0,1)} 
+               : 'U'">J</span>
             </div>
             <div class="text-left hidden lg:block">
                 <p class="text-xs font-bold text-slate-800 leading-tight">My Profile</p>

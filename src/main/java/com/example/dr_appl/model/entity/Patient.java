@@ -31,7 +31,7 @@ public class Patient {
 
     private String fullname;
     
-    @DateTimeFormat(pattern="dd-MM-yyyy")
+   @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate Dob;
     
     @Column(columnDefinition = "TEXT")  

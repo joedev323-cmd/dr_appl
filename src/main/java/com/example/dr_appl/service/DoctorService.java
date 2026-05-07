@@ -1,6 +1,7 @@
 package com.example.dr_appl.service;
 
 import com.example.dr_appl.model.entity.Doctor;
+import com.example.dr_appl.model.enums.AdminControlStatus;
 import com.example.dr_appl.repository.DoctorRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -17,5 +18,8 @@ public class DoctorService {
     public List<Doctor> findAll() {
         return doctorRepo.findAll();
     }
-    
+
+    public List<Doctor> findActiveDoctors() {
+        return doctorRepo.findByAdminStatus(AdminControlStatus.ACTIVE);
+    }
 }
