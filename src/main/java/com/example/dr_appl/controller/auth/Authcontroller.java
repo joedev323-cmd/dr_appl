@@ -1,4 +1,4 @@
-package com.example.dr_appl.controller;
+package com.example.dr_appl.controller.auth;
 
 import com.example.dr_appl.model.User;
 import com.example.dr_appl.model.entity.Doctor;
@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class Authcontroller {
@@ -47,16 +46,14 @@ public String registerUser(@ModelAttribute("user") User user) {
     user.setPatient(patientProfile); 
     // Link Patient -> User (This sets the foreign key user_id in the DB)
     patientProfile.setUser(user);
-
-    // 4. Save Once
-    // This will insert into 'users' AND then 'patients' automatically
+ 
     userRepository.save(user);
 
     return "redirect:/login?success";
 }
 @GetMapping("/doctors/register")
 public String showDoctorForm(Model model) {
-    model.addAttribute("user", new User()); // Must match th:object="${user}"
+    model.addAttribute("user", new User()); 
     return "register-doctor";
 }
 @PostMapping("/doctors/register")
@@ -67,11 +64,13 @@ public String registerDoc(@ModelAttribute("user") User user) {
     Doctor doctor = new Doctor();
     doctor.setUser(user);
 
-    // Because of CascadeType.ALL, saving the user will 
-    // automatically save the linked doctor object!
     user.setDoctor(doctor); 
     userRepository.save(user);
 
-    return "redirect:/doctors?success=true";
+    return "redirect:/doctors/register?success=true";
 }
+ @PostMapping("/login?logout")
+    public String Logut(){
+        return "redirect :/login?logout";
+    }
 }

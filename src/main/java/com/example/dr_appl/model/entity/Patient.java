@@ -12,8 +12,11 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.example.dr_appl.model.User;
 import com.example.dr_appl.model.enums.Gender;
+ 
 
 @Entity
 @Table(name = "patients")
@@ -26,8 +29,10 @@ public class Patient {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    private String name;
-    private LocalDate dob;
+    private String fullname;
+    
+   @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate Dob;
     
     @Column(columnDefinition = "TEXT")  
     private String medicalHistory;
@@ -36,20 +41,18 @@ public class Patient {
     private Gender gender;
 
     private String insuranceProvider;
-
-    
-    
+  
     public Patient() {}
     
-    public Patient(Long id, String name, LocalDate dob, String medicalHistory, Gender gender, String insuranceProvider,
-        User user) {
+    public Patient(Long id, User user, String fullname, LocalDate dob, String medicalHistory, Gender gender,
+        String insuranceProvider) {
       this.id = id;
-      this.name = name;
-      this.dob = dob;
+      this.user = user;
+      this.fullname = fullname;
+      this.Dob = dob;
       this.medicalHistory = medicalHistory;
       this.gender = gender;
       this.insuranceProvider = insuranceProvider;
-      this.user = user;
     }
 
     public Long getId() {
@@ -60,20 +63,28 @@ public class Patient {
       this.id = id;
     }
 
-    public String getName() {
-      return name;
+    public User getUser() {
+      return user;
     }
 
-    public void setName(String name) {
-      this.name = name;
+    public void setUser(User user) {
+      this.user = user;
     }
 
-    public LocalDate getDob() {
-      return dob;
+    public String getFullname() {
+      return fullname;
     }
 
-    public void setDob(LocalDate dob) {
-      this.dob = dob;
+    public void setFullname(String fullname) {
+      this.fullname = fullname;
+    }
+
+    public LocalDate getdob() {
+      return Dob;
+    }
+
+    public void setdob(LocalDate dob) {
+      this.Dob = dob;
     }
 
     public String getMedicalHistory() {
@@ -99,14 +110,7 @@ public class Patient {
     public void setInsuranceProvider(String insuranceProvider) {
       this.insuranceProvider = insuranceProvider;
     }
-
-    public User getUser() {
-      return user;
-    }
-
-    public void setUser(User user) {
-      this.user = user;
-    }
+    
     
     
   }

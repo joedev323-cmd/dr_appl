@@ -1,0 +1,137 @@
+ <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealSync | Book Appointment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+
+    <div class="min-h-screen flex">
+        <!-- Sidebar (Kept consistent with Dashboard) -->
+        <aside class="w-72 bg-white border-r border-slate-200 hidden md:flex flex-col fixed h-full">
+            <div class="p-8">
+                <h1 class="text-2xl font-bold text-indigo-600 tracking-tight">HealSync</h1>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Patient Portal</p>
+            </div>
+            
+            <nav class="flex-1 px-4 space-y-1">
+                <a th:href="@{/dashboard}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                    <span class="mr-3">🏠</span> Home
+                </a>
+                <a th:href="@{/pat-appointmt}" class="flex items-center px-4 py-3 text-sm font-semibold bg-indigo-50 text-indigo-700 rounded-2xl">
+                    <span class="mr-3">📅</span> My Appointments
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                    <span class="mr-3">💊</span> Prescriptions
+                </a>
+                <a th:href="@{/profile}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                     <span class="mr-3">👤</span> Profile Settings
+                </a>
+            </nav>
+
+            <div class="p-6 border-t border-slate-100">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="w-full flex items-center px-4 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 rounded-2xl transition-all group">
+                        <span class="mr-3 group-hover:rotate-12 transition-transform">📤</span> Sign Out
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 ml-72 min-h-screen flex flex-col">
+            
+            <!-- Breadcrumb / Header -->
+            <header class="px-10 py-8">
+                <div class="flex items-center space-x-4 mb-2">
+                    <a th:href="@{/pat-appointmt}" class="text-slate-400 hover:text-indigo-600 transition flex items-center text-sm font-medium">
+                        <span class="mr-2">←</span> Back to Dashboard
+                    </a>
+                </div>
+                <h2 class="text-3xl font-bold text-slate-800">Schedule New Appointment</h2>
+                <p class="text-slate-500 text-sm mt-1">Please provide the details below to secure your medical consultation.</p>
+            </header>
+
+            <div class="px-10 pb-12 flex-1">
+                <!-- Form Container -->
+                <section class="max-w-3xl bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden">
+                    <div class="p-10">
+                        
+                        <form th:action="@{/appointments/book}" th:object="${appointmentDTO}" method="POST" class="space-y-8">
+                            
+                            <!-- Specialist Selection -->
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 ml-1">Medical Specialist</label>
+                                <select th:field="*{doctorId}" required 
+                                        class="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none cursor-pointer">
+                                    <option value="" disabled selected>Choose an available doctor...</option>
+                                    <option th:each="doctor : ${availableDoctors}" 
+                                            th:value="${doctor.id}" 
+                                            th:text="'Dr. ' + ${doctor.name} + ' (' + ${doctor.specialization} + ')'">
+                                        Dr. Smith (Cardiology)
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Date & Time Row -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 ml-1">Consultation Date & Time</label>
+                                    <input type="datetime-local" 
+                                           th:field="*{appointmentDate}" 
+                                           required 
+                                           class="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                                </div>
+                                <div class="bg-indigo-50 rounded-2xl p-4 flex items-center">
+                                    <p class="text-[11px] text-indigo-700 leading-relaxed font-medium">
+                                        <span class="block font-bold mb-1">💡 Quick Tip:</span>
+                                        Standard consultations are 30 minutes. Ensure you arrive 10 minutes prior to your selected slot.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Reason/Notes -->
+                            <!-- <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 ml-1">Patient Notes (Optional)</label>
+                                <textarea th:field="*{notes}" rows="4" 
+                                          class="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all resize-none" 
+                                          placeholder="Briefly describe your symptoms or the reason for this visit..."></textarea>
+                            </div> -->
+
+                            <!-- Submission Actions -->
+                            <div class="pt-4 flex items-center space-x-4 border-t border-slate-50 mt-10">
+                                <a th:href="@{/pat-appointmt}" 
+                                   class="flex-1 text-center bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold hover:bg-slate-200 transition">
+                                    Cancel
+                                </a>
+                                <button type="submit" 
+                                        class="flex-[2] bg-indigo-600 text-white py-4 rounded-2xl font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-100">
+                                    Confirm & Secure Booking
+                                </button>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </section>
+
+                <!-- Help Section -->
+                <div class="mt-8 flex items-center justify-center space-x-6 text-slate-400">
+                    <div class="flex items-center text-xs">
+                        <span class="mr-2">🛡️</span> Secure Critical Section Access
+                    </div>
+                    <div class="flex items-center text-xs">
+                        <span class="mr-2">⚡</span> Instant Confirmation
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealSync | My Prescriptions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <aside class="w-72 bg-white border-r border-slate-200 hidden md:flex flex-col">
+            <div class="p-8">
+                <h1 class="text-2xl font-bold text-indigo-600 tracking-tight">HealSync</h1>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Patient Portal</p>
+            </div>
+            
+            <nav class="flex-1 px-4 space-y-1">
+                <a th:href="@{/dashboard}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                    <span class="mr-3">🏠</span> Home
+                </a>
+                <a th:href="@{/pat-appointm}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                    <span class="mr-3">📅</span> My Appointments
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-sm font-semibold bg-indigo-50 text-indigo-700 rounded-2xl">
+                    <span class="mr-3">💊</span> Prescriptions
+                </a>
+                <a th:href="@{/profile}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                     <span class="mr-3">👤</span> Profile Settings
+                </a>
+            </nav>
+
+            <div class="p-6 border-t border-slate-100">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="w-full flex items-center px-4 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 rounded-2xl transition-all group">
+                        <span class="mr-3 group-hover:rotate-12 transition-transform">📤</span> Sign Out
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto">
+            <!-- Header -->
+            <header class="flex justify-between items-center px-10 py-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Prescriptions</h2>
+                    <p class="text-slate-500 text-sm mt-1">Manage your medications and refill requests.</p>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button class="bg-white border border-slate-200 text-slate-600 px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-slate-50 transition">
+                        Pharmacy Info
+                    </button>
+                </div>
+            </header>
+
+            <div class="px-10 pb-12">
+                <!-- Active Medications Grid -->
+                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full mr-2"></span>
+                    Current Medications
+                </h3>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+                    <!-- Example Prescription Card 1 -->
+                    <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl mr-4">💊</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-lg">Lisinopril <span class="text-slate-400 font-normal">10mg</span></h4>
+                                    <p class="text-xs text-slate-500">1 tablet daily by mouth</p>
+                                </div>
+                            </div>
+                            <span class="bg-indigo-50 text-indigo-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Refills: 2 left</span>
+                        </div>
+                        <div class="mt-8 flex items-center justify-between border-t border-slate-50 pt-4">
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase font-bold">Prescribed By</p>
+                                <p class="text-sm font-semibold text-slate-700">Dr. Sarah Smith</p>
+                            </div>
+                            <button class="bg-indigo-600 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700 transition">Request Refill</button>
+                        </div>
+                    </div>
+
+                    <!-- Example Prescription Card 2 -->
+                    <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-rose-100 rounded-2xl flex items-center justify-center text-2xl mr-4">🧪</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-lg">Amoxicillin <span class="text-slate-400 font-normal">500mg</span></h4>
+                                    <p class="text-xs text-slate-500">Take twice daily for 10 days</p>
+                                </div>
+                            </div>
+                            <span class="bg-rose-50 text-rose-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Course: Day 4/10</span>
+                        </div>
+                        <div class="mt-8 flex items-center justify-between border-t border-slate-50 pt-4">
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase font-bold">Expires</p>
+                                <p class="text-sm font-semibold text-slate-700">May 15, 2026</p>
+                            </div>
+                            <button class="text-slate-400 px-5 py-2 rounded-xl text-xs font-bold border border-slate-100 cursor-not-allowed">No Refills</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prescription History Table -->
+                <section class="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
+                    <div class="px-8 py-6 border-b border-slate-50 flex justify-between items-center">
+                        <h3 class="font-bold text-lg text-slate-800">Prescription History</h3>
+                        <div class="flex items-center space-x-2">
+                             <span class="text-xs text-slate-400">Filter:</span>
+                             <select class="text-xs font-semibold bg-slate-50 border-none rounded-lg py-1 px-2 focus:ring-indigo-500">
+                                 <option>All Past</option>
+                                 <option>Last 6 Months</option>
+                             </select>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50/50 text-[11px] text-slate-400 uppercase font-bold">
+                                <tr>
+                                    <th class="px-8 py-4">Medication</th>
+                                    <th class="px-8 py-4">Dosage</th>
+                                    <th class="px-8 py-4">Date Issued</th>
+                                    <th class="px-8 py-4">Doctor</th>
+                                    <th class="px-8 py-4 text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-50 text-sm">
+                                <!-- Dynamic rows with Thymeleaf -->
+                                <tr th:each="rx : ${prescriptions}" class="hover:bg-slate-50/80 transition-colors">
+                                    <td class="px-8 py-5">
+                                        <p class="text-slate-700 font-bold" th:text="${rx.medName}">Metformin</p>
+                                    </td>
+                                    <td class="px-8 py-5 text-slate-500" th:text="${rx.dosage}">500 mg</td>
+                                    <td class="px-8 py-5 text-slate-500">Jan 12, 2026</td>
+                                    <td class="px-8 py-5 text-slate-500">Dr. Miller</td>
+                                    <td class="px-8 py-5 text-right">
+                                        <span class="px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-[10px] font-bold uppercase tracking-wider">Expired</span>
+                                    </td>
+                                </tr>
+                                <!-- Static placeholder if no data -->
+                                <tr class="hover:bg-slate-50/80 transition-colors">
+                                    <td class="px-8 py-5">
+                                        <p class="text-slate-700 font-bold">Atorvastatin</p>
+                                    </td>
+                                    <td class="px-8 py-5 text-slate-500">20 mg</td>
+                                    <td class="px-8 py-5 text-slate-500">Nov 04, 2025</td>
+                                    <td class="px-8 py-5 text-slate-500">Dr. Sarah Smith</td>
+                                    <td class="px-8 py-5 text-right">
+                                        <span class="px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-[10px] font-bold uppercase tracking-wider">Completed</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

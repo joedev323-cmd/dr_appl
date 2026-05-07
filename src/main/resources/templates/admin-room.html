@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HealSync | Manage Rooms</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+    <div class="min-h-screen flex">
+          <aside class="w-72 bg-white border-r border-slate-200 hidden md:flex flex-col">
+            <div class="p-8">
+                <h1 class="text-2xl font-bold text-slate-800 tracking-tight">HealSync<span class="text-rose-600">.</span>Admin</h1>
+            </div>
+            
+            <nav class="flex-1 px-4 space-y-1">
+                <a href="/dashboard" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
+                    <span class="mr-3">⚙️</span> System Overview
+                </a>
+                <a th:href="@{/doctors/manage}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
+                    <span class="mr-3">🩺</span> Manage Doctors
+                </a>
+                <a th:href="@{/rooms}" class="flex items-center px-4 py-3 text-sm font-semibold bg-slate-900 text-white rounded-2xl transition-all">
+                    <span class="mr-3">🏥</span> Facility Rooms
+                </a>
+                <a th:href="@{/appointmt}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
+                    <span class="mr-3">📅</span> All Appointments
+                </a>
+            </nav>
+
+            <div class="p-6 border-t border-slate-100">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="w-full flex items-center px-4 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 rounded-2xl transition-all group">
+                        <span class="mr-3">📤</span> Sign Out
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto px-10 py-12">
+            <div class="max-w-4xl mx-auto">
+                <header class="mb-10">
+                    <h2 class="text-3xl font-bold text-slate-800">Facility Rooms</h2>
+                    <p class="text-slate-500 mt-1">Add or remove clinical consultation rooms.</p>
+                </header>
+
+                <!-- Status Messages -->
+                <div th:if="${success}" class="mb-6 p-4 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-2xl text-sm font-semibold" th:text="${success}"></div>
+                <div th:if="${error}" class="mb-6 p-4 bg-rose-50 text-rose-700 border border-rose-100 rounded-2xl text-sm font-semibold" th:text="${error}"></div>
+
+                <!-- Add Room Card -->
+                <section class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-8">
+                    <h3 class="text-lg font-bold mb-4 text-slate-800">Create New Room</h3>
+                    <form th:action="@{/rooms/add}" method="post" class="flex gap-4">
+                        <input type="text" name="roomName" placeholder="e.g. Consultation Room A" 
+                               class="flex-1 px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500/20 transition">
+                        <button type="submit" class="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 transition">
+                            Add Room
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Room List -->
+                <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50 border-b border-slate-100">
+                            <tr>
+                                <th class="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">ID</th>
+                                <th class="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Room Name</th>
+                                <th class="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            <tr th:each="room : ${rooms}" class="hover:bg-slate-50/50 transition">
+                                <td class="px-8 py-5 text-sm text-slate-500" th:text="${room.roomId}"></td>
+                                <td class="px-8 py-5 text-sm font-semibold text-slate-800" th:text="${room.roomName}"></td>
+                                <td class="px-8 py-5 text-right">
+                                    <form th:action="@{/rooms/delete/{id}(id=${room.roomId})}" method="post" onsubmit="return confirm('Archive this room?')">
+                                        <button type="submit" class="text-rose-600 hover:text-rose-700 text-sm font-bold transition">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(rooms)}">
+                                <td colspan="3" class="px-8 py-10 text-center text-slate-400 italic">No rooms registered in the system.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

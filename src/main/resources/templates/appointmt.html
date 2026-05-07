@@ -11,94 +11,100 @@
 <body class="bg-slate-50 text-slate-900 antialiased">
 
     <div class="min-h-screen flex">
+        <!-- Sidebar: Restored to Indigo Theme -->
         <aside class="w-72 bg-white border-r border-slate-200 hidden md:flex flex-col sticky top-0 h-screen">
             <div class="p-8">
-                <h1 class="text-2xl font-bold tracking-tight">
-                    HealSync<span th:text="${user.role == 'ADMIN' ? '.Admin' : ''}" 
-                                  th:class="${user.role == 'ADMIN' ? 'text-rose-600' : 'text-teal-600'}"></span>
-                </h1>
+                <h1 class="text-2xl font-bold text-indigo-600 tracking-tight">HealSync</h1>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Patient Portal</p>
             </div>
             
             <nav class="flex-1 px-4 space-y-1">
-                <a th:href="@{/dashboard}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-teal-600 rounded-2xl transition-all">
-                    <span class="mr-3">📊</span> Dashboard
+                <a th:href="@{/dashboard}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                    <span class="mr-3">🏠</span> Home
                 </a>
-                <a href="#" class="flex items-center px-4 py-3 text-sm font-semibold bg-teal-50 text-teal-700 rounded-2xl transition-all">
-                    <span class="mr-3">📅</span> Appointments
+                <a th:href="@{/appointments}" class="flex items-center px-4 py-3 text-sm font-semibold bg-indigo-50 text-indigo-700 rounded-2xl">
+                    <span class="mr-3">📅</span> My Appointments
                 </a>
-                
-                <div th:if="${user.role == 'ADMIN'}" class="pt-4 mt-4 border-t border-slate-100 space-y-1">
-                    <p class="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Management</p>
-                    <a th:href="@{/doctors}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
-                        <span class="mr-3">🩺</span> Doctors
-                    </a>
-                    <a th:href="@{/rooms}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
-                        <span class="mr-3">🏥</span> Rooms
-                    </a>
-                </div>
+                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                    <span class="mr-3">💊</span> Prescriptions
+                </a>
+                <a th:href="@{/profile}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
+                     <span class="mr-3">👤</span> Profile Settings
+                </a>
             </nav>
 
             <div class="p-6 border-t border-slate-100">
                 <form th:action="@{/logout}" method="post">
                     <button type="submit" class="w-full flex items-center px-4 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 rounded-2xl transition-all group">
-                        <span class="mr-3 group-hover:scale-110 transition-transform">📤</span> Sign Out
+                        <span class="mr-3 group-hover:rotate-12 transition-transform">📤</span> Sign Out
                     </button>
                 </form>
             </div>
         </aside>
 
         <main class="flex-1 overflow-y-auto">
+            <!-- Header -->
             <header class="flex justify-between items-center px-10 py-8">
                 <div>
                     <h2 class="text-3xl font-bold text-slate-800">New Appointment</h2>
-                    <p class="text-slate-500 text-sm mt-1" th:text="${#dates.format(#dates.createNow(), 'EEEE, MMM dd, yyyy')}">Date</p>
+                    <p class="text-slate-500 text-sm mt-1" th:text="${#dates.format(#dates.createNow(), 'EEEE, MMM dd, yyyy')}">Friday, May 01, 2026</p>
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <button onclick="window.history.back()" class="text-slate-400 hover:text-slate-600 transition text-sm font-medium">
-                        Go Back
+                    <button onclick="window.history.back()" class="text-slate-400 hover:text-indigo-600 transition text-sm font-semibold">
+                        ← Back to List
                     </button>
                 </div>
             </header>
 
             <div class="px-10 pb-12 flex justify-center">
-                <div class="w-full max-w-2xl bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+                <!-- Form Container: Styled with the rounded-[2rem] and Indigo accents -->
+                <div class="w-full max-w-2xl bg-white rounded-[2.5rem] shadow-xl shadow-indigo-100/50 border border-slate-100 overflow-hidden">
                     
-                    <div class="bg-slate-900 px-10 py-8 text-white flex justify-between items-center">
+                    <div class="bg-indigo-600 px-10 py-10 text-white flex justify-between items-center">
                         <div>
                             <h2 class="text-2xl font-bold">Schedule Session</h2>
-                            <p class="text-slate-400 text-sm mt-1">Select your specialist and preferred time.</p>
+                            <p class="text-indigo-100 text-sm mt-1">Select your specialist and preferred time.</p>
                         </div>
-                        <span class="text-4xl">🏥</span>
+                        <div class="w-16 h-16 bg-indigo-500/50 rounded-2xl flex items-center justify-center text-3xl">
+                            🏥
+                        </div>
                     </div>
 
                     <form th:action="@{/book}" th:object="${appointment}" method="post" class="p-10 space-y-8">
                         
+                        <!-- Specialist Selection -->
                         <div class="space-y-3">
-                            <label class="block text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Medical Professional</label>
-                            <div class="relative">
-                                <select th:field="*{doctor}" class="w-full appearance-none bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 pr-12 rounded-2xl focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all cursor-pointer font-medium">
+                            <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Medical Professional</label>
+                            <div class="relative group">
+                                <select th:field="*{doctor}" class="w-full appearance-none bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 pr-12 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all cursor-pointer font-medium">
                                     <option value="">Select a Doctor</option>
                                     <option th:each="doc : ${doctors}" th:value="${doc.id}" th:text="${'Dr. ' + doc.firstName + ' ' + doc.lastName + ' — ' + doc.specialization}"></option>
+                                    <!-- Design fallback -->
+                                    <option value="1">Dr. Smith — Cardiology</option>
+                                    <option value="2">Dr. Williams — Neurology</option>
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-slate-400">
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-slate-400 group-hover:text-indigo-600 transition-colors">
                                     <svg class="h-5 w-5 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
                                 </div>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Room Selection -->
                             <div class="space-y-3">
-                                <label class="block text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Location/Room</label>
-                                <select th:field="*{room}" class="w-full bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium">
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Location/Room</label>
+                                <select th:field="*{room}" class="w-full bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-medium cursor-pointer">
                                     <option value="">Select Room</option>
                                     <option th:each="rm : ${room}" th:value="${rm.room_id}" th:text="'Consultation Room ' + ${rm.room_id}"></option>
+                                    <option value="101">Room 101</option>
                                 </select>
                             </div>
 
+                            <!-- Time Selection -->
                             <div class="space-y-3">
-                                <label class="block text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Time Slot</label>
-                                <select name="timeSlot" class="w-full bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all font-medium">
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Time Slot</label>
+                                <select name="timeSlot" class="w-full bg-slate-50 border border-slate-100 text-slate-700 py-4 px-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-medium cursor-pointer">
                                     <option value="">Choose Time</option>
                                     <option value="09:00 AM">09:00 AM</option>
                                     <option value="11:00 AM">11:00 AM</option>
@@ -108,8 +114,9 @@
                             </div>
                         </div>
 
+                        <!-- Action Buttons -->
                         <div class="pt-6 flex flex-col sm:flex-row gap-4">
-                            <button type="submit" class="flex-1 bg-teal-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-teal-100 hover:bg-teal-700 transform hover:-translate-y-1 transition-all duration-300">
+                            <button type="submit" class="flex-1 bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transform hover:-translate-y-1 transition-all duration-300">
                                 Confirm Booking
                             </button>
                             <button type="button" onclick="window.history.back()" class="sm:w-32 bg-slate-100 text-slate-500 font-bold py-4 rounded-2xl hover:bg-slate-200 transition-all">

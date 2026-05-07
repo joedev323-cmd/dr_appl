@@ -20,7 +20,7 @@
                 <a href="/dashboard" class="flex items-center px-4 py-3 text-sm font-semibold bg-slate-900 text-white rounded-2xl transition-all">
                     <span class="mr-3">⚙️</span> System Overview
                 </a>
-                <a th:href="@{/doctors}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
+                <a th:href="@{/doctors/manage}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
                     <span class="mr-3">🩺</span> Manage Doctors
                 </a>
                 <a th:href="@{/rooms}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
@@ -60,7 +60,7 @@
                         <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Total Doctors</p>
                         <div class="flex items-end justify-between">
                             <p class="text-4xl font-bold text-slate-800" th:text="${totalDoctors}">0</p>
-                            <a th:href="@{/doctors}" class="text-rose-600 text-xs font-bold hover:underline">Manage</a>
+                            <a th:href="@{/doctors/manage}" class="text-rose-600 text-xs font-bold hover:underline">Manage</a>
                         </div>
                     </div>
                     
@@ -87,9 +87,10 @@
                         <p class="text-slate-400 text-sm mb-6">As an Admin, only you can register new medical professionals to ensure credentials are verified.</p>
                         <div class="flex space-x-4">
                            <a th:href="@{/doctors/register}" 
-   class="bg-rose-600 hover:bg-rose-700 px-6 py-3 rounded-xl text-sm font-bold transition text-center inline-block">
-   Register New Doctor
-</a>
+                                     class="bg-rose-600 
+                                     text-white hover:bg-rose-700 px-6 py-3 rounded-xl text-sm font-bold transition text-center inline-block">
+                                    Register New Doctor
+                            </a>
                             <button class="bg-slate-800 hover:bg-slate-700 px-6 py-3 rounded-xl text-sm font-bold transition">View Logs</button>
                         </div>
                     </section>

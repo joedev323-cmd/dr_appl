@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HealSync | Set Availability</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }
+        #calendar { max-width: 900px; margin: 40px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+
+    <div class="min-h-screen flex">
+        <!-- Sidebar (Reused from Dashboard) -->
+        <aside class="w-72 bg-white border-r border-slate-200 hidden md:flex flex-col sticky top-0 h-screen">
+            <div class="p-8">
+                <h1 class="text-2xl font-bold text-teal-600 tracking-tight">HealSync</h1>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Medical Professional</p>
+            </div>
+            <nav class="flex-1 px-4 space-y-1">
+                <a th:href="@{/dashboard}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-teal-600 rounded-2xl transition-all">
+                    <span class="mr-3">📊</span> Overview
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-sm font-semibold bg-teal-50 text-teal-700 rounded-2xl">
+                    <span class="mr-3">⏰</span> Availability
+                </a>
+                <a th:href="@{/doctor/profile}" class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-teal-600 rounded-2xl transition-all">
+                    <span class="mr-3">👤</span> Profile Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-10">
+            <header class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-800">Set Your Availability</h2>
+                <p class="text-slate-500 mt-2">Open new time slots for your patients to book.</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Form Column -->
+                <div class="lg:col-span-1">
+                                <!-- Display Error Message -->
+                    <div th:if="${errorMessage}" style="color: white; background-color: #dc3545; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                         <span th:text="${errorMessage}"></span>
+                    </div>
+
+                        <!-- Display Success Message -->
+                            <div th:if="${successMessage}" style="color: white; background-color: #28a745; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                                <span th:text="${successMessage}"></span>
+                            </div>
+                    <form th:action="@{/doctor/availability/generate}" method="post" class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 space-y-6">
+                        
+                        <!-- Select Date -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Shift Date</label>
+                            <input type="date" name="date" required
+                                   class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all">
+                        </div>
+
+                        <!-- Time Range -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Start Time</label>
+                                <input type="time" name="startTime" required
+                                       class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">End Time</label>
+                                <input type="time" name="endTime" required
+                                       class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Room Selection (From Admin's list) -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Assign Room</label>
+                            <select name="roomId" required
+                                    class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all">
+                                <option value="" disabled selected>Select an active room</option>
+                                <option th:each="room : ${rooms}" 
+                                        th:value="${room.roomId}" 
+                                        th:text="${room.roomName}">Room 101</option>
+                            </select>
+                        </div>
+
+                        <!-- Slot Duration -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Slot Duration</label>
+                            <select name="duration" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none">
+                                <option value="15">15 Minutes</option>
+                                <option value="30" selected>30 Minutes</option>
+                                <option value="60">1 Hour</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="w-full bg-teal-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-teal-100 hover:bg-teal-700 transform hover:-translate-y-1 transition-all">
+                            Generate Time Slots
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Preview/Current Slots Column -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
+                        <div class="p-6 border-b border-slate-50 flex justify-between items-center">
+                            <h3 class="font-bold text-slate-800">Existing Slots</h3>
+                            <span class="text-xs font-bold text-teal-600 bg-teal-50 px-3 py-1 rounded-full" th:text="${#lists.size(existingSlots)} + ' Slots Total'">0 Slots Total</span>
+                        </div>
+                        
+                        <div class="p-6">
+                            <!-- If no slots exist -->
+                            <div th:if="${#lists.isEmpty(existingSlots)}" class="text-center py-12">
+                                <div class="text-4xl mb-4">📅</div>
+                                <p class="text-slate-400 font-medium">No slots generated yet for your upcoming schedule.</p>
+                                
+                            </div>
+
+                            <div class="bg-white p-2 rounded-xl shadow-sm mt-6 ">
+                                <div id="calendar" class="min-h-[600px]"></div>
+                            </div>
+                            <!-- Grid of Slots -->
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                <div th:each="slot : ${existingSlots}" 
+                                     class="p-4 rounded-2xl border border-slate-100 bg-slate-50 flex justify-between items-center group hover:border-teal-200 transition-all">
+                                    <div>
+                                        <p class="text-sm font-bold text-slate-700" th:text="${#temporals.format(slot.startTime, 'HH:mm')}">09:00</p>
+                                        <p class="text-[10px] text-slate-400 uppercase" th:text="${slot.room.roomName}">Room 101</p>
+                                    </div>
+                                    <form th:action="@{/doctor/availability/delete/{id}(id=${slot.id})}" method="post">
+                                            <button type="submit" class="text-red-500 hover:text-red-700" 
+                                                    onclick="return confirm('Are you sure?')">
+                                                            Delete
+                                            </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'timeGridWeek', // Shows the week with time rows
+        slotMinTime: '08:00:00',    // Start of the workday
+        slotMaxTime: '20:00:00',    // End of the workday
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: '/doctor/availability/api/events', // The endpoint we created
+        eventClick: function(info) {
+        if (confirm("Delete this slot for " + info.event.title + "?")) {
+            fetch('/doctor/availability/api/delete/' + info.event.id, {
+                method: 'DELETE',
+            }).then(() => {
+                info.event.remove(); // Removes it from the calendar immediately
+          });
+        }
+    }
+});
+    calendar.render();
+});
+</script>
+</body>
+</html>
