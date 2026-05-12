@@ -80,7 +80,7 @@ public class AppointmentService {
     public long countAll() {
         return appointmentRepo.count();
     }
-    // Inside AppointmentService.java
+    
 
 public List<Appointment> findAll() {
     return appointmentRepo.findAll();

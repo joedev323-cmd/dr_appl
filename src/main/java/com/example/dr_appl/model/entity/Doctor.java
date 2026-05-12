@@ -1,9 +1,8 @@
 package com.example.dr_appl.model.entity;
  
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.dr_appl.model.enums.*;
 import com.example.dr_appl.model.User;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,7 +16,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-import com.example.dr_appl.model.enums.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Doctors")
@@ -56,12 +56,15 @@ public class Doctor {
         return "Available";
     }
 
-    // --- GETTERS & SETTERS ---
+    public Long getId() { 
+        return id;
+    }
+    
+     public void setId(Long id) { 
+        this.id = id; 
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-      public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -72,6 +75,7 @@ public class Doctor {
     public String getSpecialization() { 
         return specialization; 
     }
+    
     public void setSpecialization(String specialization) { 
         this.specialization = specialization; 
     }
@@ -79,6 +83,7 @@ public class Doctor {
     public String getYearsofExperience() { 
         return yearsofExperience; 
     }
+    
     public void setYearsofExperience(String yearsofExperience) { 
         this.yearsofExperience = yearsofExperience; 
     }
@@ -86,20 +91,23 @@ public class Doctor {
     public AdminControlStatus getAdminStatus() { 
         return adminStatus; 
     }
+    
     public void setAdminStatus(AdminControlStatus adminStatus) { 
         this.adminStatus = adminStatus; 
     }
 
     public DoctorIntent getDoctorIntent() { 
         return doctorIntent;
-     }
+    }
+
     public void setDoctorIntent(DoctorIntent doctorIntent) { 
         this.doctorIntent = doctorIntent;
-     }
+    }
 
     public User getUser() { 
         return user;
-     }
+    }
+
     public void setUser(User user) { 
         this.user = user; 
     }

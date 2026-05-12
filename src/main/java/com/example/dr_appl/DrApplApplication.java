@@ -23,7 +23,7 @@ public class DrApplApplication {
             admin.setFirstName("System");
             admin.setLastName("Admin");
             admin.setEmail("admin@healsync.com");
-            admin.setPassword(passwordEncoder.encode("admin123")); // Change this!
+            admin.setPassword(passwordEncoder.encode("admin123"));  
             admin.setRole("ADMIN");
             userRepository.save(admin);
             System.out.println(">>> Initial Admin account created: admin@healsync.com / admin123");
