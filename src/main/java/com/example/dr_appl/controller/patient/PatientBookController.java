@@ -36,7 +36,7 @@ public String showBookingPage(Model model) {
     return "pat-book"; 
 }
 
-    // 2. Your existing POST mapping
+    // 2. existing POST mapping
     @PostMapping("/appointments/book")
     public String bookAppointment(@ModelAttribute AppointmentDTO appointmentDTO, RedirectAttributes redirectAttributes) {
         try {
