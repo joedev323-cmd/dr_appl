@@ -1,4 +1,4 @@
- package com.example.dr_appl;
+package com.example.dr_appl;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,9 +16,9 @@ public class DrApplApplication {
         
     }
     @Bean
-   CommandLineRunner initAdmin(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    CommandLineRunner initAdmin(UserRepository userRepository, PasswordEncoder passwordEncoder) {
     return args -> {
-         if (userRepository.findByEmail("admin@healsync.com") == null) {
+        if (userRepository.findByEmail("admin@healsync.com") == null) {
             User admin = new User();
             admin.setFirstName("System");
             admin.setLastName("Admin");

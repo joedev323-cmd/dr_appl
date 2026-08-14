@@ -1,0 +1,25 @@
+{
+  "name": "dr_appl",
+  "version": "1.0.0",
+  "description": "it is a doctors application program built in spring boot \r it is built to simulate or rather explore how a cpu uses critical section in its process",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joedev323-cmd/dr_appl.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/joedev323-cmd/dr_appl/issues"
+  },
+  "homepage": "https://github.com/joedev323-cmd/dr_appl#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

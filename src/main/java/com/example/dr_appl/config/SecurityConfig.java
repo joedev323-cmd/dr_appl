@@ -16,7 +16,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
           .authorizeHttpRequests(auth -> auth
     // 1. Public Assets/Pages
-    .requestMatchers("/", "/signup", "/login", "/style.css", "/img/**").permitAll()
+    .requestMatchers("/", "/signup", "/login", "/css/**", "/img/**").permitAll()
 
     // 2. Admin Only (Management tasks)
     .requestMatchers("/doctors/**", "/rooms/**","/appointmt/**").hasRole("ADMIN")
