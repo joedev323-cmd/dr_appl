@@ -22,21 +22,21 @@ public class AppntmntController {
         this.appointmentService = appointmentService;
     }
 
-  @GetMapping("/pat-appointmt")
-public String showAppointmentDashboard(Model model) {
-    java.time.LocalDate today = java.time.LocalDate.now();
-    
-    // 1. Fetch data from services
-    List<Doctor> doctors = doctorService.findActiveDoctors();
-    List<Appointment> appts = appointmentService.findAll();
+    @GetMapping("/pat-appointmt")
+    public String showAppointmentDashboard(Model model) {
+        java.time.LocalDate today = java.time.LocalDate.now();
 
-    // 2. The names MUST match the "th:text" and "th:each" in your HTML
-    model.addAttribute("availableDoctors", doctors); // Fixed name
-    model.addAttribute("myAppointments", appts);     // Added this
-    
-    // 3. Logic for the slots preview
-    model.addAttribute("slots", appointmentService.generateAvailableSlots(today, null));
+        // 1. Fetch data from services
+        List<Doctor> doctors = doctorService.findActiveDoctors();
+        List<Appointment> appts = appointmentService.findAll();
 
-    return "pat-appointm";
-}
+        // 2. The names MUST match the "th:text" and "th:each" in your HTML
+        model.addAttribute("availableDoctors", doctors); // Fixed name
+        model.addAttribute("myAppointments", appts); // Added this
+
+        // 3. Logic for the slots preview
+        model.addAttribute("slots", appointmentService.generateAvailableSlots(today, null));
+
+        return "pat-appointm";
+    }
 }

@@ -37,13 +37,13 @@ public class AvailabilityController {
     @GetMapping
     public String showAvailabilityPage(Model model, Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
-        Doctor currentDoctor = user.getDoctor(); 
+        Doctor currentDoctor = user.getDoctor();
 
         model.addAttribute("rooms", roomRepository.findAll());
         model.addAttribute("existingSlots", availabilityRepository.findByDoctorOrderByStartTimeAsc(currentDoctor));
-        model.addAttribute("user", user); 
-        
-        return "doc-availability"; 
+        model.addAttribute("user", user);
+
+        return "doc-availability";
     }
 
     // 2. The API for the Calendar (JSON) - Specific to the logged-in Doctor
@@ -52,7 +52,7 @@ public class AvailabilityController {
     public List<Map<String, Object>> getEvents(Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
         List<Availability> slots = availabilityRepository.findByDoctorOrderByStartTimeAsc(user.getDoctor());
-        
+
         return formatEvents(slots);
     }
 
@@ -83,20 +83,20 @@ public class AvailabilityController {
         LocalDateTime rangeStart = LocalDateTime.of(date, startTime);
         LocalDateTime rangeEnd = LocalDateTime.of(date, endTime);
 
-        
-      // 1. Change the call to use the boolean method
-    boolean roomOccupied = availabilityRepository.isRoomOccupied(selectedRoom, rangeStart, rangeEnd);
+        // 1. Change the call to use the boolean method
+        boolean roomOccupied = availabilityRepository.isRoomOccupied(selectedRoom, rangeStart, rangeEnd);
 
-    // 2. Update the 'if' statement to check the boolean
-    if (roomOccupied) {
-        redirectAttributes.addFlashAttribute("errorMessage", "The room is already occupied during this time.");
-    return "redirect:/doctor/availability";
+        // 2. Update the 'if' statement to check the boolean
+        if (roomOccupied) {
+            redirectAttributes.addFlashAttribute("errorMessage", "The room is already occupied during this time.");
+            return "redirect:/doctor/availability";
         }
 
         // Check 2: Is the current doctor already busy in a different room?
         boolean doctorBusy = availabilityRepository.isDoctorBusy(currentDoctor, rangeStart, rangeEnd);
         if (doctorBusy) {
-            redirectAttributes.addFlashAttribute("errorMessage", "You are already scheduled in another room during this time.");
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "You are already scheduled in another room during this time.");
             return "redirect:/doctor/availability";
         }
 
@@ -131,7 +131,8 @@ public class AvailabilityController {
     }
 
     /**
-     * Helper method to convert Availability objects into FullCalendar-friendly Maps.
+     * Helper method to convert Availability objects into FullCalendar-friendly
+     * Maps.
      */
     private List<Map<String, Object>> formatEvents(List<Availability> slots) {
         return slots.stream().map(slot -> {
@@ -145,5 +146,3 @@ public class AvailabilityController {
         }).collect(Collectors.toList());
     }
 }
-
- 

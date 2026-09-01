@@ -22,55 +22,58 @@ public class Authcontroller {
     public String login() {
         return "login";
     }
-   
+
     @GetMapping("/signup")
     public String signup(Model model) {
         model.addAttribute("user", new User());
         return "signup";
     }
 
-@Autowired
-private PasswordEncoder passwordEncoder; // This pulls the BCrypt bean from your SecurityConfig
+    @Autowired
+    private PasswordEncoder passwordEncoder; // This pulls the BCrypt bean from your SecurityConfig
 
-@PostMapping("/signup")
-public String registerUser(@ModelAttribute("user") User user) {
-    // 1. Prepare Identity & Security
-    user.setRole("PATIENT");
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    @PostMapping("/signup")
+    public String registerUser(@ModelAttribute("user") User user) {
+        // 1. Prepare Identity & Security
+        user.setRole("PATIENT");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-    // 2. Create the Patient Profile object
-    Patient patientProfile = new Patient();
-    
-    // 3. Establish the Two-Way Link
-    // Link User -> Patient
-    user.setPatient(patientProfile); 
-    // Link Patient -> User (This sets the foreign key user_id in the DB)
-    patientProfile.setUser(user);
- 
-    userRepository.save(user);
+        // 2. Create the Patient Profile object
+        Patient patientProfile = new Patient();
 
-    return "redirect:/login?success";
-}
-@GetMapping("/doctors/register")
-public String showDoctorForm(Model model) {
-    model.addAttribute("user", new User()); 
-    return "register-doctor";
-}
-@PostMapping("/doctors/register")
-public String registerDoc(@ModelAttribute("user") User user) {
-    user.setRole("DOCTOR");
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // 3. Establish the Two-Way Link
+        // Link User -> Patient
+        user.setPatient(patientProfile);
+        // Link Patient -> User (This sets the foreign key user_id in the DB)
+        patientProfile.setUser(user);
 
-    Doctor doctor = new Doctor();
-    doctor.setUser(user);
+        userRepository.save(user);
 
-    user.setDoctor(doctor); 
-    userRepository.save(user);
+        return "redirect:/login?success";
+    }
 
-    return "redirect:/doctors/register?success=true";
-}
- @PostMapping("/login?logout")
-    public String Logut(){
+    @GetMapping("/doctors/register")
+    public String showDoctorForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register-doctor";
+    }
+
+    @PostMapping("/doctors/register")
+    public String registerDoc(@ModelAttribute("user") User user) {
+        user.setRole("DOCTOR");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        Doctor doctor = new Doctor();
+        doctor.setUser(user);
+
+        user.setDoctor(doctor);
+        userRepository.save(user);
+
+        return "redirect:/doctors/register?success=true";
+    }
+
+    @PostMapping("/login?logout")
+    public String Logut() {
         return "redirect :/login?logout";
     }
 }

@@ -35,7 +35,7 @@
                         class="flex items-center px-4 py-3 text-sm font-semibold bg-indigo-50 text-indigo-700 rounded-2xl">
                         <span class="mr-3">📅</span> My Appointments
                     </a>
-                    <a href="#"
+                    <a th:href="@{/presc}"
                         class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-indigo-600 rounded-2xl transition-all">
                         <span class="mr-3">💊</span> Prescriptions
                     </a>
@@ -91,7 +91,7 @@
                                         Specialist</label>
                                     <select th:field="*{doctorId}" required
                                         class="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none cursor-pointer">
-                                        <option value disabled selected>Choose
+                                        <option value ="null" disabled selected>Choose
                                             an available doctor...</option>
                                         <option
                                             th:each="doctor : ${availableDoctors}"

@@ -13,10 +13,10 @@ import com.example.dr_appl.model.User;
 import com.example.dr_appl.model.entity.Doctor;
 import com.example.dr_appl.model.entity.Patient;
 
-// Your Repository imports
 import com.example.dr_appl.repository.UserRepository;
 import com.example.dr_appl.repository.AppointmentRepository;
-@Controller // 1. Added this so Spring recognizes it as a web controller
+
+@Controller 
 public class DoctorPatientsController {
 
     @Autowired // 2. Inject the repositories
