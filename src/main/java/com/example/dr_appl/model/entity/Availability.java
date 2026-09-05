@@ -37,9 +37,9 @@ public class Availability {
     // To track if this block has been fully taken by an appointment
     private boolean isBooked = false;
 
-    
-    public Availability() {}
-    
+    public Availability() {
+    }
+
     public Availability(Long id, Doctor doctor, Room room, LocalDateTime startTime, LocalDateTime endTime,
             boolean isBooked) {
         this.id = id;
@@ -51,7 +51,7 @@ public class Availability {
     }
 
     public Availability(Doctor doctor2, Room room2, LocalDateTime start, LocalDateTime end) {
-    
+
     }
 
     public Long getId() {
@@ -101,5 +101,5 @@ public class Availability {
     public void setBooked(boolean isBooked) {
         this.isBooked = isBooked;
     }
-    
+
 }

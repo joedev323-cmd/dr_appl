@@ -1,6 +1,5 @@
 package com.example.dr_appl.controller.doctor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,14 +23,18 @@ import com.example.dr_appl.repository.*;
 @RequestMapping("/doctor/availability")
 public class AvailabilityController {
 
-    @Autowired
     private AvailabilityRepository availabilityRepository;
 
-    @Autowired
     private RoomRepository roomRepository;
 
-    @Autowired
     private UserRepository userRepository;
+
+    public AvailabilityController(AvailabilityRepository availabilityRepository, RoomRepository roomRepository,
+            UserRepository userRepository) {
+        this.availabilityRepository = availabilityRepository;
+        this.roomRepository = roomRepository;
+        this.userRepository = userRepository;
+    }
 
     // 1. The Main Page (GET)
     @GetMapping

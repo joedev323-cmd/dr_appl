@@ -2,7 +2,6 @@ package com.example.dr_appl.service;
 
 import java.time.LocalDateTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.dr_appl.model.entity.Availability;
@@ -15,11 +14,14 @@ import com.example.dr_appl.repository.AvailabilityRepository;
 @Service
 public class AvailabilityService {
 
-    @Autowired
     private AvailabilityRepository availabilityRepository;
 
+    public AvailabilityService(AvailabilityRepository availabilityRepository) {
+        this.availabilityRepository = availabilityRepository;
+    }
+
     public String createSlot(Doctor doctor, Room room, LocalDateTime start, LocalDateTime end) {
-        
+
         // 1. ADMIN CHECK: Is the doctor allowed in the system?
         if (doctor.getAdminStatus() == AdminControlStatus.SUSPENDED) {
             return "Cannot create slot: Doctor's system access is revoked.";

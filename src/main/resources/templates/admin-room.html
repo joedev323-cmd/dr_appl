@@ -20,7 +20,7 @@
                 </div>
 
                 <nav class="flex-1 px-4 space-y-1">
-                    <a th:href="/dashboard"
+                    <a th:href="@{/dashboard}"
                         class="flex items-center px-4 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-rose-600 rounded-2xl transition-all">
                         <span class="mr-3">⚙️</span> System Overview
                     </a>
@@ -94,6 +94,8 @@
                                     <th
                                         class="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Room
                                         Name</th>
+                                        <!-- note to self add status of the rooms for admin but the backend is doing that automatically for now -->
+                                        <!-- <th class="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest"> status</th> -->
                                     <th
                                         class="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
                                 </tr>

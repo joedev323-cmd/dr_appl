@@ -12,36 +12,58 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
             .csrf(csrf -> csrf.disable())
-          .authorizeHttpRequests(auth -> auth
-    // 1. Public Assets/Pages
-    .requestMatchers("/", "/signup", "/login", "/css/**", "/img/**").permitAll()
 
-    // 2. Admin Only (Management tasks)
-    .requestMatchers("/doctors/**", "/rooms/**","/appointmt/**").hasRole("ADMIN")
+            .authorizeHttpRequests(auth -> auth
 
-    // 3. Doctor Only (Consultation tasks)
-     .requestMatchers("/doctor/schedule/**").hasRole("DOCTOR")
-            .requestMatchers("/profile/**").authenticated()
-    // 4. Patient Only (Booking tasks)
-    .requestMatchers("/appointmt/**").hasRole("PATIENT")
+                // Public
+                .requestMatchers(
+                    "/",
+                    "/signup",
+                    "/login",
+                    "/css/**",
+                    "/img/**"
+                ).permitAll()
 
-    // 5. Lock everything else to logged-in users
-    .anyRequest().authenticated()
-)
+                // Admin
+                .requestMatchers(
+                    "/doctors/**",
+                    "/rooms/**",
+                    "/appointmt/**"
+                ).hasRole("ADMIN")
+
+                // Doctor
+                .requestMatchers(
+                    "/doctor/**"
+                ).hasRole("DOCTOR")
+
+                // Patient
+                .requestMatchers(
+                    "/appointments/**",
+                    "/pat-appointmt",
+                    "/presc",
+                    "/profile/**"
+                ).hasRole("PATIENT")
+
+                // Everything else
+                .anyRequest().authenticated()
+            )
+
             .formLogin(form -> form
-                .loginPage("/login") // Uses the  custom login.html
-                .defaultSuccessUrl("/dashboard", true) // Where to go after login
+                .loginPage("/login")
+                .defaultSuccessUrl("/dashboard", true)
                 .permitAll()
             )
+
             .logout(logout -> logout
-            .logoutUrl("/logout") // The URL that triggers logout
-            .logoutSuccessUrl("/") // Where to go after logging out
-            .invalidateHttpSession(true) // Delete the session
-            .deleteCookies("JSESSIONID") // Clear the browser cookie
-            .permitAll()
-        );
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+            );
 
         return http.build();
     }

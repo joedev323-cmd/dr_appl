@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AppntmntController {
 
-    private final DoctorService doctorService; // Use Service instead of Repo
+    private final DoctorService doctorService; 
     private final AppointmentService appointmentService;
 
     public AppntmntController(DoctorService doctorService, AppointmentService appointmentService) {

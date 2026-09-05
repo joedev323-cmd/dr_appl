@@ -5,11 +5,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class AppointmentDTO {
     private Long doctorId;
-    
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime appointmentDate;
-    
+
     private String reason;
+
+    public AppointmentDTO() {
+    }
 
     // Standard Getters and Setters
     public Long getDoctorId() {

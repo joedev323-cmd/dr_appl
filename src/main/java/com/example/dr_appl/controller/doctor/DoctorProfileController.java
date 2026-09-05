@@ -2,13 +2,11 @@ package com.example.dr_appl.controller.doctor;
 
 import com.example.dr_appl.model.entity.Doctor;
 import com.example.dr_appl.repository.DoctorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
- 
 
 import java.security.Principal;
 
@@ -17,15 +15,18 @@ import java.security.Principal;
 @PreAuthorize("hasRole('DOCTOR')")
 public class DoctorProfileController {
 
-    @Autowired
     private DoctorRepository doctorRepository;
+
+    public DoctorProfileController(DoctorRepository doctorRepository) {
+        this.doctorRepository = doctorRepository;
+    }
 
     // 1. View Profile
     @GetMapping
     public String viewProfile(Model model, Principal principal) {
         Doctor doctor = getLoggedInDoctor(principal);
         model.addAttribute("doctor", doctor);
-        return "doc-profile"; 
+        return "doc-profile";
     }
 
     // 2. Show Edit Form
@@ -33,14 +34,14 @@ public class DoctorProfileController {
     public String showEditForm(Model model, Principal principal) {
         Doctor doctor = getLoggedInDoctor(principal);
         model.addAttribute("doctor", doctor);
-        return "profile-edit"; 
+        return "profile-edit";
     }
 
     // 3. Process Update
     @PostMapping("/update")
-    public String updateProfile(@ModelAttribute("doctor") Doctor doctorData, 
-                                Principal principal, 
-                                RedirectAttributes redirectAttributes) {
+    public String updateProfile(@ModelAttribute("doctor") Doctor doctorData,
+            Principal principal,
+            RedirectAttributes redirectAttributes) {
         Doctor existingDoctor = getLoggedInDoctor(principal);
 
         // Update fields from your Entity
@@ -48,12 +49,12 @@ public class DoctorProfileController {
         existingDoctor.setSpecialization(doctorData.getSpecialization());
         existingDoctor.setYearsofExperience(doctorData.getYearsofExperience());
         existingDoctor.setDoctorIntent(doctorData.getDoctorIntent());
-        
-        // Note: Usually, you don't let doctors change their own 'status' 
+
+        // Note: Usually, you don't let doctors change their own 'status'
         // or 'user' link via a profile form for security/admin reasons.
 
         doctorRepository.save(existingDoctor);
-        
+
         redirectAttributes.addFlashAttribute("message", "Profile updated successfully!");
         return "redirect:/doctor/profile";
     }
@@ -64,5 +65,5 @@ public class DoctorProfileController {
         return doctorRepository.findByUserEmail(email)
                 .orElseThrow(() -> new RuntimeException("Doctor profile not found for: " + email));
     }
-    
+
 }

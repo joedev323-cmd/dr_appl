@@ -17,7 +17,7 @@ import jakarta.persistence.Index;
 @Entity
 
 @Table(indexes = {
-    @Index(name = "idx_room_time", columnList = "room_room_id, startTime, endTime")
+        @Index(name = "idx_room_time", columnList = "room_room_id, startTime, endTime")
 })
 public class Appointment {
 
@@ -40,8 +40,7 @@ public class Appointment {
     @ManyToOne
     private Room room;
 
-   
-   public Appointment(LocalDateTime startTime, LocalDateTime endTime, AppointmentStatus status, Doctor doctor,
+    public Appointment(LocalDateTime startTime, LocalDateTime endTime, AppointmentStatus status, Doctor doctor,
             Patient patient, Room room) {
         this.startTime = startTime;
         this.endTime = endTime;
@@ -51,84 +50,69 @@ public class Appointment {
         this.room = room;
     }
 
-
-   public Appointment(){}
-
-
-   public Long getId() {
-    return id;
-   }
-
-
-   public void setId(Long id) {
-    this.id = id;
-   }
-
-
-   public LocalDateTime getStartTime() {
-    return startTime;
-   }
-
-
-   public void setStartTime(LocalDateTime startTime) {
-    if (this.endTime != null && startTime.isAfter(this.endTime)) {
-        throw new IllegalArgumentException("Start time must be before end time");
+    public Appointment() {
     }
-    this.startTime = startTime;
-   }
 
-
-   public LocalDateTime getEndTime() {
-    return endTime;
-   }
-
-
-   public void setEndTime(LocalDateTime endTime) {
-    if (this.startTime != null && endTime.isBefore(this.startTime)) {
-        throw new IllegalArgumentException("wee mzee rada unamalizaje ka ujaanza");
+    public Long getId() {
+        return id;
     }
-    this.endTime = endTime;
-   }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-   public AppointmentStatus getStatus() {
-    return status;
-   }
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
 
+    public void setStartTime(LocalDateTime startTime) {
+        if (this.endTime != null && startTime.isAfter(this.endTime)) {
+            throw new IllegalArgumentException("Start time must be before end time");
+        }
+        this.startTime = startTime;
+    }
 
-   public void setStatus(AppointmentStatus status) {
-    this.status = status;
-   }
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
 
+    public void setEndTime(LocalDateTime endTime) {
+        if (this.startTime != null && endTime.isBefore(this.startTime)) {
+            throw new IllegalArgumentException("wee mzee rada unamalizaje ka ujaanza");
+        }
+        this.endTime = endTime;
+    }
 
-   public Doctor getDoctor() {
-    return doctor;
-   }
+    public AppointmentStatus getStatus() {
+        return status;
+    }
 
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
 
-   public void setDoctor(Doctor doctor) {
-    this.doctor = doctor;
-   }
+    public Doctor getDoctor() {
+        return doctor;
+    }
 
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
 
-   public Patient getPatient() {
-    return patient;
-   }
+    public Patient getPatient() {
+        return patient;
+    }
 
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
 
-   public void setPatient(Patient patient) {
-    this.patient = patient;
-   }
+    public Room getRoom() {
+        return room;
+    }
 
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 
-   public Room getRoom() {
-    return room;
-   }
-
-
-   public void setRoom(Room room) {
-    this.room = room;
-   }
-
-   
 }

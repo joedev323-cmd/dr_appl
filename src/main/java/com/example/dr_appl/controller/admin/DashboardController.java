@@ -1,7 +1,5 @@
 package com.example.dr_appl.controller.admin;
 
-// Standard Spring MVC Imports
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;  
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +10,12 @@ import com.example.dr_appl.repository.UserRepository;
 @Controller
 public class DashboardController {
 
-    @Autowired
     private UserRepository userRepository;
 
+    public DashboardController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    } 
+    
     @GetMapping("/dashboard")
     public String showDashboard(Authentication authentication, Model model) {
         
@@ -40,6 +41,7 @@ public class DashboardController {
             default:
                 return "redirect:/login?error";
         }
+   
     }
     
 }
